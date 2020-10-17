@@ -2,7 +2,7 @@
 	><div>
 		<el-menu
 			default-active="2"
-			class="el-menu-vertical-demo vh-100"
+			class="vh-100"
 			@open="handleOpen"
 			@close="handleClose"
 			:collapse="isCollapse"
@@ -11,7 +11,6 @@
 				<i v-if="isCollapse" class="el-icon-d-arrow-right"></i>
 				<i v-else class="el-icon-d-arrow-left"></i
 			></el-menu-item>
-
 			<el-submenu index="1">
 				<template slot="title">
 					<i class="el-icon-location"></i>

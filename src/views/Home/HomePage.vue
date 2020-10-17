@@ -1,17 +1,17 @@
 <template>
-	<div class="login-page">
+	<div class="home-page">
 		<div
 			class="container vh-100 d-flex align-items-center justify-content-center"
 		>
-			<div class="col-12 col-md-7"><login-card></login-card></div>
+			<div class="col-12 col-md-7"><room-card></room-card></div>
 		</div>
 	</div>
 </template>
 <script>
-import LoginCard from "./content/LoginCard.vue";
+import RoomCard from "./content/RoomCard.vue";
 export default {
 	components: {
-		LoginCard
+		RoomCard
 	}
 };
 </script>
