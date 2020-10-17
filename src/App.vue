@@ -1,10 +1,16 @@
 <template>
-	<div id="app">
-		<div id="nav">
-			<router-link to="/">Home</router-link>
+	<div class="d-flex">
+		<navbar style="position:relative; z-index:2; height:100vh"></navbar>
+		<div style="position:absolute; z-index:1" class="vw-100 vh-100">
+			<router-view />asd
 		</div>
-		<router-view />
 	</div>
 </template>
-
-<style lang="scss"></style>
+<script>
+import Navbar from "./components/Navbar.vue";
+export default {
+	components: {
+		Navbar
+	}
+};
+</script>

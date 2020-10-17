@@ -1,8 +1,5 @@
+import "bootstrap/dist/css/bootstrap.css";
+import "element-ui/lib/theme-chalk/index.css";
 import "../assets/sass/imports.scss";
-import globalComponents from "./globalComponents";
 
-export default {
-	install(Vue) {
-		Vue.use(globalComponents);
-	}
-};
+export default {};
