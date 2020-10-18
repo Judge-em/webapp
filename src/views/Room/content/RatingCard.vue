@@ -35,11 +35,14 @@
 				</el-rate>
 			</div>
 
-			<div class="col-12 d-flex justify-content-end">
+			<div class="col-12 d-flex justify-content-end align-items-center">
+				<span>{{
+					`X ${$t("room.Players")} Y ${$t("room.Voted")}`
+				}}</span>
 				<el-button
 					type="success"
 					icon="el-icon-s-promotion"
-					class="text-wrap my-2"
+					class="text-wrap my-2 ml-2"
 					>Vote</el-button
 				>
 			</div>
