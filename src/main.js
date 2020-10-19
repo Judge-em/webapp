@@ -9,6 +9,7 @@ import App from "./App.vue";
 import cookieHelper from "./helpers/cookieHelper";
 import i18n from "./locales/i18n";
 import router from "./router";
+import authService from "./services/authorizationService";
 import store from "./store";
 
 Vue.config.productionTip = false;
@@ -16,6 +17,7 @@ Vue.use(VueAxios, Axios);
 Vue.use(VueCookies);
 Vue.use(globalStyles);
 Vue.use(globalComponents);
+Vue.use(authService);
 
 Vue.axios.defaults.baseURL = process.env.VUE_APP_API_BASE_URL;
 
@@ -36,7 +38,7 @@ Vue.axios.interceptors.response.use(
 		let errorResponse = error.response;
 		if (!errorResponse) {
 			router.push({
-				name: "home"
+				name: "Login"
 			});
 			errorResponse = {
 				data: {
@@ -45,9 +47,9 @@ Vue.axios.interceptors.response.use(
 				}
 			};
 		} else if (error.response.status === 500) {
-			store.dispatch("addNotification", {
-				message: error.response.data.message,
-				type: "error"
+			this.$notify.error({
+				title: "Error",
+				message: error.response.data.message
 			});
 		} else if (
 			error.response.status === 401 ||

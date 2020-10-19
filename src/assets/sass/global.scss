@@ -1,4 +1,9 @@
 body {
 	background: url("../images/background.jpg");
 	background-size: cover;
+	background-repeat: no-repeat;
+}
+.view-overlay {
+	position: absolute;
+	z-index: 1;
 }

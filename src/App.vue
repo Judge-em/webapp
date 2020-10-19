@@ -1,9 +1,9 @@
 <template>
-	<div class="d-flex">
-		<navbar style="position:relative; z-index:2; height:100vh"></navbar>
+	<div class="d-flex vh-100">
+		<navbar v-if="showNavbar" class="navbar-overlay"></navbar>
 		<div
-			style="position:absolute; z-index:1; padding-left:64px"
-			class="vw-100 vh-100"
+			:style="{ paddingLeft: showNavbar ? '64px' : '' }"
+			class=" view-overlay vw-100 vh-100"
 		>
 			<router-view />
 		</div>
@@ -14,6 +14,17 @@ import Navbar from "./components/Navbar.vue";
 export default {
 	components: {
 		Navbar
+	},
+	data() {
+		return {
+			routesWithoutMenu: ["Login"]
+		};
+	},
+	computed: {
+		showNavbar() {
+			// return true;
+			return !this.routesWithoutMenu.includes(this.$route.name);
+		}
 	}
 };
 </script>

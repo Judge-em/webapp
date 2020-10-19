@@ -1,3 +1,7 @@
-const en = {};
+import login from "./login";
+
+const en = {
+	login
+};
 
 export default en;

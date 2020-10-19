@@ -1,5 +1,5 @@
 <template>
-	<el-card class="box-card" style="max-height:90vh; overflow:auto">
+	<el-card class="box-card" >
 		<div slot="header" class="text-center">
 			<h3>{{ $t("creator.RoomCreate") }}</h3>
 		</div>

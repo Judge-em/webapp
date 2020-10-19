@@ -3,7 +3,7 @@ import store from "../store";
 
 export default function(Vue) {
 	Vue.auth = {
-		async loginUser(username, password) {
+		async logIn(username, password) {
 			const credentials = {
 				username,
 				password
