@@ -6,6 +6,7 @@ import Vue from "vue";
 import VueAxios from "vue-axios";
 import VueCookies from "vue-cookies";
 import App from "./App.vue";
+import cookieHelper from "./helpers/cookieHelper";
 import i18n from "./locales/i18n";
 import router from "./router";
 import store from "./store";
@@ -17,6 +18,46 @@ Vue.use(globalStyles);
 Vue.use(globalComponents);
 
 Vue.axios.defaults.baseURL = process.env.VUE_APP_API_BASE_URL;
+
+Vue.axios.interceptors.request.use(
+	(config) => {
+		const token = cookieHelper.getSessionCookie();
+		if (token) {
+			config.headers.Authorization = `Bearer ${token}`;
+		}
+		return config;
+	},
+	(error) => Promise.reject(error)
+);
+
+Vue.axios.interceptors.response.use(
+	(response) => response,
+	async (error) => {
+		let errorResponse = error.response;
+		if (!errorResponse) {
+			router.push({
+				name: "home"
+			});
+			errorResponse = {
+				data: {
+					success: false,
+					message: "Connection error"
+				}
+			};
+		} else if (error.response.status === 500) {
+			store.dispatch("addNotification", {
+				message: error.response.data.message,
+				type: "error"
+			});
+		} else if (
+			error.response.status === 401 ||
+			error.response.status === 403 // TODO: Consider this
+		) {
+			store.dispatch("deleteSession");
+		}
+		return Promise.reject(errorResponse);
+	}
+);
 
 new Vue({
 	router,
