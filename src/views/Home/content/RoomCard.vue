@@ -21,7 +21,7 @@
 				<el-button
 					type="primary"
 					icon="el-icon-switch-button"
-					@click="join"
+					@click="joinToRoom"
 					class="text-wrap mt-3 font-weight-bold"
 					>{{ $t("home.Join") }}</el-button
 				>
@@ -45,6 +45,17 @@ export default {
 		return {
 			roomCode: ""
 		};
+	},
+	methods: {
+		async joinToRoom() {
+			this.loading = true;
+			const result = await this.$game.joinToRoom(this.roomCode);
+			console.log(result);
+			this.loading = false;
+		},
+		async createRoom() {
+			this.$router.push({ name: "RoomCreate" });
+		}
 	}
 };
 </script>
