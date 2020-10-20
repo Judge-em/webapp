@@ -4,59 +4,61 @@
 			default-active="2"
 			class="vh-100"
 			@open="handleOpen"
+			text-color=""
 			@close="handleClose"
 			:collapse="isCollapse"
+			:style="navbarStyle"
 		>
-			<el-menu-item @click="isCollapse = !isCollapse">
-				<i v-if="isCollapse" class="el-icon-d-arrow-right"></i>
-				<i v-else class="el-icon-d-arrow-left"></i
+			<el-menu-item
+				@click="isCollapse = !isCollapse"
+				:style="navbarItemStyle"
+			>
+				<i v-if="isCollapse" class="el-icon-s-unfold"></i>
+				<i v-else class="el-icon-s-fold"></i
 			></el-menu-item>
-			<el-submenu index="1">
-				<template slot="title">
-					<i class="el-icon-location"></i>
-					<span slot="title">Navigator One</span>
-				</template>
-				<el-menu-item-group>
-					<span slot="title">Group One</span>
-					<el-menu-item index="1-1">item one</el-menu-item>
-					<el-menu-item index="1-2">item two</el-menu-item>
-				</el-menu-item-group>
-				<el-menu-item-group title="Group Two">
-					<el-menu-item index="1-3">item three</el-menu-item>
-				</el-menu-item-group>
-				<el-submenu index="1-4">
-					<span slot="title">item four</span>
-					<el-menu-item index="1-4-1">item one</el-menu-item>
-				</el-submenu>
-			</el-submenu>
+			<el-menu-item index="1">
+				<i class="el-icon-notebook-2"></i>
+				<span slot="title">{{ $t("layout.Summaries") }}</span>
+			</el-menu-item>
 			<el-menu-item index="2">
-				<i class="el-icon-menu"></i>
-				<span slot="title">Navigator Two</span>
-			</el-menu-item>
-			<el-menu-item index="3" disabled>
-				<i class="el-icon-document"></i>
-				<span slot="title">Navigator Three</span>
-			</el-menu-item>
-			<el-menu-item index="4">
-				<i class="el-icon-setting"></i>
-				<span slot="title">Navigator Four</span>
+				<i class="el-icon-switch-button"></i>
+				<span slot="title">{{ $t("layout.LogOut") }}</span>
 			</el-menu-item>
 		</el-menu>
 	</div>
 </template>
 <script>
+import mediaQuery from "../mixins/mediaQuery";
 export default {
 	data() {
 		return {
 			isCollapse: true
 		};
 	},
+	mixins: [mediaQuery],
 	methods: {
 		handleOpen(key, keyPath) {
 			console.log(key, keyPath);
 		},
 		handleClose(key, keyPath) {
 			console.log(key, keyPath);
+		}
+	},
+	created() {
+		console.log(this.isSmallScreen);
+	},
+	computed: {
+		navbarStyle() {
+			if (this.isSmallScreen && this.isCollapse) {
+				return "margin-left: -65px; padding-left: 20px ";
+			}
+			return "";
+		},
+		navbarItemStyle() {
+			if (this.isSmallScreen && this.isCollapse) {
+				return "margin-left: 45px; padding-right: 40px ";
+			}
+			return "";
 		}
 	}
 };

@@ -10,6 +10,9 @@ import cookieHelper from "./helpers/cookieHelper";
 import i18n from "./locales/i18n";
 import router from "./router";
 import authService from "./services/authorizationService";
+import categoryService from "./services/categoryService";
+import gameService from "./services/gameService";
+import itemService from "./services/itemService";
 import store from "./store";
 
 Vue.config.productionTip = false;
@@ -18,6 +21,9 @@ Vue.use(VueCookies);
 Vue.use(globalStyles);
 Vue.use(globalComponents);
 Vue.use(authService);
+Vue.use(itemService);
+Vue.use(gameService);
+Vue.use(categoryService);
 
 Vue.axios.defaults.baseURL = process.env.VUE_APP_API_BASE_URL;
 
