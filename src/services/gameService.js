@@ -1,7 +1,7 @@
 import requestSender from "../helpers/requestSender";
 
 export default function(Vue) {
-	Vue.auth = {
+	Vue.game = {
 		async createGame(gameConfig) {
 			const result = await requestSender.send(
 				{

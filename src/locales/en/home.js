@@ -1,4 +1,4 @@
-const login = {
+const home = {
 	JoinToRoom: "Join to room",
 	RoomCode: "Room Code",
 	Join: "Join",
@@ -6,4 +6,4 @@ const login = {
 	CreateRoom: "Create Room"
 };
 
-export default login;
+export default home;

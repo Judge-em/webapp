@@ -26,7 +26,7 @@
 					>{{ $t("home.Join") }}</el-button
 				>
 			</div>
-			<h4 class="my-2 grey">{{ $t("home.Or") }}</h4>
+			<h5 class="my-2 grey">{{ $t("home.Or") }}</h5>
 			<div class="col-12 col-lg-6 d-flex flex-column mb-2">
 				<el-button
 					type="success"
