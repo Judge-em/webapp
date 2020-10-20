@@ -1,16 +1,19 @@
 <template>
 	<el-card class="box-card">
-		<div slot="header" class="text-center">
-			<h3>{{ $t("home.JoinToRoom") }}</h3>
+		<div slot="header" class="text-center my-4">
+			<h3 class="home-header">
+				{{ $t("home.JoinToRoom").toUpperCase() }}
+			</h3>
 		</div>
 		<div
-			class="col-12 d-flex justify-content-center align-items-center flex-column"
+			class="col-12 d-flex justify-content-center align-items-center flex-column px-0 px-sm-3"
 		>
-			<label>{{ $t("home.RoomCodeInput") }} </label>
 			<div class="col-12 col-lg-6 d-flex flex-column">
 				<el-input
 					:placeholder="$t('home.RoomCode')"
-					v-model="input"
+					v-model="roomCode"
+					minlength="6"
+					maxlength="6"
 					clearable
 				>
 					<i slot="prefix" class="el-input__icon el-icon-key"></i>
@@ -18,17 +21,19 @@
 				<el-button
 					type="primary"
 					icon="el-icon-switch-button"
-					class="text-wrap mt-3"
-					>Join</el-button
+					@click="joinToRoom"
+					class="text-wrap mt-3 font-weight-bold"
+					>{{ $t("home.Join") }}</el-button
 				>
 			</div>
-			<h4 class="my-3">{{ $t("home.CreateRoom") }}</h4>
-			<div class="col-12 col-lg-6 d-flex flex-column">
+			<h4 class="my-2 grey">{{ $t("home.Or") }}</h4>
+			<div class="col-12 col-lg-6 d-flex flex-column mb-2">
 				<el-button
-					type="info"
+					type="success"
 					icon="el-icon-magic-stick"
-					class="text-wrap my-2"
-					>Create room</el-button
+					@click="createRoom"
+					class="text-wrap mb-4 mt-2 font-weight-bold"
+					>{{ $t("home.CreateRoom") }}</el-button
 				>
 			</div>
 		</div>
@@ -38,8 +43,19 @@
 export default {
 	data() {
 		return {
-			input: ""
+			roomCode: ""
 		};
+	},
+	methods: {
+		async joinToRoom() {
+			this.loading = true;
+			const result = await this.$game.joinToRoom(this.roomCode);
+			console.log(result);
+			this.loading = false;
+		},
+		async createRoom() {
+			this.$router.push({ name: "RoomCreate" });
+		}
 	}
 };
 </script>
