@@ -59,12 +59,24 @@ export default {
 		return {
 			active: 0,
 			room: {
+				code: "",
 				name: "",
 				categories: [
-					{ name: "tete", weigth: 3 },
-					{ name: "tetae", weigth: 4 }
+					{ name: "tete", weight: 3 },
+					{ name: "tetae", weight: 4 }
 				],
-				items: []
+				items: [
+					{
+						name: "test",
+						description: "asdas",
+						image: "https://picsum.photos/600/100"
+					},
+					{
+						name: "test",
+						description: "asdas",
+						image: "https://picsum.photos/600/100"
+					}
+				]
 			},
 			dynamicComponents: [
 				{ name: "name-form" },
@@ -94,13 +106,19 @@ export default {
 	},
 	methods: {
 		nextStep() {
-			if (this.active++ > this.stepsLimit) this.createRoom();
+			if (this.active++ >= this.stepsLimit) {
+				this.active = 0;
+				this.createRoom();
+			}
 		},
 		previousStep() {
 			if (this.active-- <= 0) this.$router.push({ name: "Home" });
 		},
 		createRoom() {
-			console.log(this.room);
+			this.$router.push({
+				name: "Lobby",
+				params: { roomCode: this.room.code }
+			});
 		}
 	}
 };

@@ -44,9 +44,6 @@ export default {
 			console.log(key, keyPath);
 		}
 	},
-	created() {
-		console.log(this.isSmallScreen);
-	},
 	computed: {
 		navbarStyle() {
 			if (this.isSmallScreen && this.isCollapse) {
