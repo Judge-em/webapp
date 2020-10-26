@@ -10,3 +10,11 @@ body {
 	position: absolute;
 	z-index: 1;
 }
+.error-text {
+	color: red;
+}
+.is-invalid {
+	input {
+		border: 1px solid red !important;
+	}
+}

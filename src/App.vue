@@ -11,7 +11,10 @@
 </template>
 <script>
 import Navbar from "./components/Navbar.vue";
+
 import mediaQuery from "./mixins/mediaQuery";
+// import cookieHelper from "./helpers/cookieHelper";
+
 export default {
 	components: {
 		Navbar

@@ -29,11 +29,12 @@ export default {
 		}
 	},
 	__responseWrapper(result, status = true) {
+		console.log(result);
 		const wrappedResponse = {
-			status: result.data.status
+			status: result.status
 		};
 		if (status) {
-			wrappedResponse.data = result.data.data;
+			wrappedResponse.data = result.data;
 			Object.assign(
 				wrappedResponse,
 				result.data.count ? { count: result.data.count } : null,

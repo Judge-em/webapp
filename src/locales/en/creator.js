@@ -11,7 +11,8 @@ const creator = {
 	ItemName: "Item name",
 	EnterItems: "Enter Items",
 	ItemDescription: "Description",
-	ItemImage: "Image Url"
+	ItemImage: "Image Url",
+	NewCategory: "New category?"
 };
 
 export default creator;

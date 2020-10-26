@@ -15,37 +15,12 @@
 					<el-step></el-step>
 				</el-steps>
 			</div>
-			<component :is="currentComponent" :roomConfig="room"></component>
-			<div class="col-12 d-flex justify-content-between flex-wrap">
-				<el-button
-					type="danger"
-					:icon="
-						isFirstStep ? 'el-icon-circle-close' : 'el-icon-back'
-					"
-					class="text-wrap my-2 font-weight-bold"
-					@click="previousStep"
-					>{{
-						isFirstStep
-							? $t("creator.CancelRoom")
-							: $t("creator.Previous")
-					}}</el-button
-				>
-				<el-button
-					type="success"
-					class="text-wrap my-2 font-weight-bold"
-					@click="nextStep"
-					>{{
-						isLastStep ? $t("creator.Finish") : $t("creator.Next")
-					}}
-					<i
-						:class="
-							isLastStep
-								? 'el-icon-circle-check'
-								: 'el-icon-right'
-						"
-					></i
-				></el-button>
-			</div>
+			<component
+				:is="currentComponent"
+				:roomConfig="room"
+				@dispatchPreviousStep="previousStep"
+				@dispatchNextStep="nextStep"
+			></component>
 		</div>
 	</el-card>
 </template>
@@ -57,9 +32,9 @@ import CategoriesList from "./CategoriesList";
 export default {
 	data() {
 		return {
-			active: 0,
+			active: 1,
 			room: {
-				code: "",
+				code: "AKGKWF",
 				name: "",
 				categories: [
 					{ name: "tete", weight: 3 },
@@ -114,11 +89,12 @@ export default {
 		previousStep() {
 			if (this.active-- <= 0) this.$router.push({ name: "Home" });
 		},
-		createRoom() {
-			this.$router.push({
-				name: "Lobby",
-				params: { roomCode: this.room.code }
-			});
+		async createRoom() {
+			// const result = await this.$game
+			// this.$router.push({
+			// 	name: "Lobby",
+			// 	params: { roomCode: this.room.code }
+			// });
 		}
 	}
 };

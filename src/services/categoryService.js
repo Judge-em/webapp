@@ -23,6 +23,13 @@ export default function(Vue) {
 			);
 
 			return result;
+		},
+		async getCategories(gameId) {
+			const result = await requestSender.send({
+				method: "get",
+				url: `/categories/${gameId}`
+			});
+			return result;
 		}
 	};
 

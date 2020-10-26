@@ -21,6 +21,13 @@ export default new Vuex.Store({
 		setSession({ commit }, token) {
 			commit("storeUser", parseJwt(token));
 			cookieHelper.setSessionCookie(token);
+		},
+		restoreSession({ getters, dispatch }) {
+			if (getters.user == null) {
+				if (cookieHelper.hasSessionCookie()) {
+					dispatch("setSession", cookieHelper.getSessionCookie());
+				}
+			}
 		}
 	}
 });
