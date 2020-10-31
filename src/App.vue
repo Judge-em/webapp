@@ -11,9 +11,8 @@
 </template>
 <script>
 import Navbar from "./components/Navbar.vue";
-
 import mediaQuery from "./mixins/mediaQuery";
-// import cookieHelper from "./helpers/cookieHelper";
+import { mapGetters } from "vuex";
 
 export default {
 	components: {
@@ -26,9 +25,21 @@ export default {
 	},
 	mixins: [mediaQuery],
 	computed: {
+		...mapGetters(["user"]),
 		showNavbar() {
 			// return true;
 			return !this.routesWithoutMenu.includes(this.$route.name);
+		}
+	},
+	watch: {
+		user(newVal) {
+			if (newVal === null) {
+				this.$notify.info({
+					title: "Info",
+					message: this.$t("layout.LoggedOut")
+				});
+				this.$router.push({ name: "Login" });
+			}
 		}
 	}
 };

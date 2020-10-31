@@ -25,6 +25,7 @@
 					@click="authWithGmail()"
 					>{{ $t("login.LoginViaGmail") }}</el-button
 				>
+				<div class="g-signin2" data-onsuccess="onSignIn"></div>
 			</div>
 			<h5 class="my-2 grey">{{ $t("login.Or") }}</h5>
 			<div class="col-12 col-lg-8 d-flex flex-column mb-2">
@@ -53,10 +54,12 @@ export default {
 	async created() {
 		await this.loadFacebookSDK(document, "script", "facebook-jssdk");
 		await this.initFacebook();
+		// await this.initGoogle();
 	},
 	methods: {
 		async logIn(provider, token = null) {
 			await this.$auth.logIn(provider, token);
+			this.loading = false;
 			this.$notify.success({
 				title: "Success",
 				message: this.$t("login.Success")
@@ -76,8 +79,20 @@ export default {
 					});
 				}
 			});
-			this.loading = false;
 		},
+		// async initGoogle() {
+		// 	window.gapi.load("auth2", function() {
+		// 		window.gapi.auth2
+		// 			.init({
+		// 				client_id:
+		// 					""
+		// 			})
+		// 			.then(
+		// 				() => console.log("test"),
+		// 				(err) => console.log(err)
+		// 			);
+		// 	});
+		// },
 		async initFacebook() {
 			window.fbAsyncInit = function() {
 				window.FB.init({

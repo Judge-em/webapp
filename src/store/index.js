@@ -10,7 +10,8 @@ export default new Vuex.Store({
 		user: null
 	},
 	getters: {
-		user: (state) => state.user
+		user: (state) => state.user,
+		isGuest: (state) => state.user.role === "Guest"
 	},
 	mutations: {
 		storeUser(state, user) {
@@ -28,6 +29,10 @@ export default new Vuex.Store({
 					dispatch("setSession", cookieHelper.getSessionCookie());
 				}
 			}
+		},
+		destroySession({ commit }) {
+			commit("storeUser", null);
+			cookieHelper.deleteSessionCookie();
 		}
 	}
 });

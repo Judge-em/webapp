@@ -6,7 +6,7 @@
 					{{
 						$t("lobby.WelcomeIn")
 							.toUpperCase()
-							.replace("|CODE|", "23232")
+							.replace("|CODE|", code)
 					}}
 				</h3>
 			</div>
@@ -58,7 +58,13 @@
 <script>
 export default {
 	data() {
-		return {};
+		return {
+			code: ""
+		};
+	},
+	created() {
+		console.log(this.$route.params);
+		this.code = "VCDYUW";
 	},
 	methods: {
 		editRoom() {

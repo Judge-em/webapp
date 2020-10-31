@@ -29,7 +29,6 @@ export default {
 		}
 	},
 	__responseWrapper(result, status = true) {
-		console.log(result);
 		const wrappedResponse = {
 			status: result.status
 		};

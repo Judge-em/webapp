@@ -1,3 +1,4 @@
+import gameHub from "@/plugins/gameHub";
 import globalComponents from "@/plugins/globalComponents";
 import globalStyles from "@/plugins/globalStyles";
 import "@/plugins/veeValidate";
@@ -24,6 +25,7 @@ Vue.use(authService);
 Vue.use(itemService);
 Vue.use(gameService);
 Vue.use(categoryService);
+Vue.use(gameHub);
 
 Vue.axios.defaults.baseURL = process.env.VUE_APP_API_BASE_URL;
 

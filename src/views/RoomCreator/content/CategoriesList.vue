@@ -18,6 +18,7 @@
 								<ValidationProvider
 									ref="categoryName"
 									name="CategoryName"
+									rules="required"
 									v-slot="{ errors }"
 								>
 									<el-input
@@ -42,7 +43,7 @@
 								<ValidationProvider
 									ref="categoryWeight"
 									name="CategoryWeight"
-									rules="numeric"
+									rules="numeric|required"
 									v-slot="{ errors }"
 								>
 									<el-input
@@ -51,6 +52,7 @@
 											$t('creator.CategoryWeight')
 										"
 										v-model="category.weight"
+										min="1"
 										clearable
 									>
 										<i
@@ -114,28 +116,87 @@ export default {
 		}
 	},
 	data() {
-		return {};
+		return {
+			oldCategories: [],
+			test1: null,
+			test2: null
+		};
 	},
 	mounted() {
 		this.fetchCategories();
 	},
+	computed: {
+		newCategories() {
+			return this.roomConfig.categories.filter((item) => item.new);
+		},
+		updatedCategories() {
+			return this.oldCategories.filter((category) => {
+				const item = this.roomConfig.categories.find(
+					(item) => item.id === category.id
+				);
+				return !this.isCategoryEqual(item, category) && !category.new;
+			});
+		}
+	},
 	methods: {
 		async fetchCategories() {
-			const result = await this.$category.getCategories(4);
-			if (result) this.roomConfig.categories = result.data;
-			console.log(result);
+			const result = await this.$category.getCategories(
+				this.roomConfig.id
+			);
+			if (result) {
+				this.roomConfig.categories = [...result.data];
+				this.oldCategories = this.roomConfig.categories.map((item) => ({
+					...item
+				}));
+			}
 		},
-		removeCategory(index) {
+		async removeCategory(index) {
+			if (this.roomConfig.categories[index].id) {
+				await this.$category.removeCategory(
+					this.roomConfig.categories[index].id
+				);
+			}
 			this.roomConfig.categories.splice(index, 1);
 		},
 		addNewCategory() {
-			this.roomConfig.categories.push({ name: "", weight: "" });
+			this.roomConfig.categories.push({
+				name: "",
+				weight: 1,
+				gameId: this.roomConfig.gameId,
+				new: true
+			});
 		},
 		previousStep() {
 			this.$emit("dispatchPreviousStep");
 		},
-		nextStep() {
-			this.$emit("dispatchNextStep");
+		async nextStep() {
+			if (this.newCategories.length > 0) {
+				await this.$category.createCategories(
+					this.newCategories.map((item) => {
+						item.weight = +item.weight;
+						return item;
+					})
+				);
+			}
+			if (this.updatedCategories.length > 0) {
+				await this.$category.updateCategories(
+					this.updatedCategories.map((item) => {
+						item.weight = +item.weight;
+						return item;
+					})
+				);
+			}
+			// console.log(result);
+			// if (result) {
+			// 	this.$emit("dispatchNextStep");
+			// }
+		},
+		isCategoryEqual(oldCategory, newCategory) {
+			return (
+				oldCategory.id === newCategory.id &&
+				oldCategory.name === newCategory.name &&
+				oldCategory.weight === newCategory.weight
+			);
 		}
 	}
 };

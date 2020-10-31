@@ -26,20 +26,18 @@
 </template>
 <script>
 import NameForm from "./NameForm";
-import ItemsList from "./ItemsList";
 import CategoriesList from "./CategoriesList";
+import InviteFriends from "./InviteFriends";
 
 export default {
 	data() {
 		return {
-			active: 1,
+			active: 0,
 			room: {
-				code: "AKGKWF",
+				gameId: null,
+				code: "",
 				name: "",
-				categories: [
-					{ name: "tete", weight: 3 },
-					{ name: "tetae", weight: 4 }
-				],
+				categories: [],
 				items: [
 					{
 						name: "test",
@@ -56,7 +54,7 @@ export default {
 			dynamicComponents: [
 				{ name: "name-form" },
 				{ name: "categories-list" },
-				{ name: "items-list" }
+				{ name: "invite-friends" }
 			]
 		};
 	},
@@ -76,25 +74,21 @@ export default {
 	},
 	components: {
 		NameForm,
-		ItemsList,
-		CategoriesList
+		CategoriesList,
+		InviteFriends
 	},
 	methods: {
 		nextStep() {
 			if (this.active++ >= this.stepsLimit) {
 				this.active = 0;
-				this.createRoom();
+				this.$router.push({
+					name: "Lobby",
+					params: { roomCode: this.room.code }
+				});
 			}
 		},
 		previousStep() {
 			if (this.active-- <= 0) this.$router.push({ name: "Home" });
-		},
-		async createRoom() {
-			// const result = await this.$game
-			// this.$router.push({
-			// 	name: "Lobby",
-			// 	params: { roomCode: this.room.code }
-			// });
 		}
 	}
 };

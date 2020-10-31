@@ -70,13 +70,13 @@ export default {
 		},
 		async nextStep() {
 			const isValid = await this.$refs.form.validate();
-			if (isValid && this.roomConfig.code.length > 0) {
+			if (isValid) {
 				const result = await this.$game.createGame({
 					name: this.roomConfig.name
 				});
 				console.log(result);
-				this.$emit("dispatchNextStep");
-			} else if (this.roomConfig.code.length > 0) {
+				this.roomCofing.code = result.data.code;
+				this.roomConfig.gameId = result.data.id;
 				this.$emit("dispatchNextStep");
 			}
 		}
