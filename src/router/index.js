@@ -7,6 +7,7 @@ import Ranking from "../views/Ranking/Ranking.vue";
 import ReportPage from "../views/Report/ReportPage.vue";
 import RoomPage from "../views/Room/RoomPage.vue";
 import RoomCreator from "../views/RoomCreator/RoomCreator.vue";
+import SummariesList from "../views/Summaries/Summaries.vue";
 import WaitingRoom from "../views/WaitingRoom/WaitingRoom.vue";
 
 Vue.use(VueRouter);
@@ -49,6 +50,14 @@ const routes = [
 		path: "/summary",
 		name: "Summary",
 		component: ReportPage,
+		meta: {
+			requiresAuth: true
+		}
+	},
+	{
+		path: "/summaries",
+		name: "Summaries",
+		component: SummariesList,
 		meta: {
 			requiresAuth: true
 		}

@@ -14,6 +14,7 @@ import authService from "./services/authorizationService";
 import categoryService from "./services/categoryService";
 import gameService from "./services/gameService";
 import itemService from "./services/itemService";
+import summaryService from "./services/summaryService";
 import store from "./store";
 
 Vue.config.productionTip = false;
@@ -24,6 +25,7 @@ Vue.use(globalComponents);
 Vue.use(authService);
 Vue.use(itemService);
 Vue.use(gameService);
+Vue.use(summaryService);
 Vue.use(categoryService);
 Vue.use(gameHub);
 

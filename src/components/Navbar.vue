@@ -8,7 +8,11 @@
 				<i v-if="isCollapse" class="el-icon-s-unfold"></i>
 				<i v-else class="el-icon-s-fold"></i
 			></el-menu-item>
-			<el-menu-item>
+			<el-menu-item @click="$router.push({ name: 'Home' })">
+				<i class="el-icon-s-home"></i>
+				<span slot="title">{{ $t("layout.Home") }}</span>
+			</el-menu-item>
+			<el-menu-item @click="$router.push({ name: 'Summaries' })">
 				<i class="el-icon-notebook-2"></i>
 				<span slot="title">{{ $t("layout.Summaries") }}</span>
 			</el-menu-item>

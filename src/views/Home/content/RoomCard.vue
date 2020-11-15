@@ -88,23 +88,41 @@
 	</el-card>
 </template>
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 export default {
 	data() {
 		return {
-			roomCode: "VCDYUW",
+			roomCode: "UMIWAR",
 			nickname: "test"
 		};
 	},
 	methods: {
+		...mapActions(["setProfileId", "setGameConfig"]),
 		async joinToRoom() {
 			this.loading = true;
-			console.log(this.$connection);
-			this.$connection.invoke(
-				"ConnectToGame",
-				this.roomCode,
-				this.nickname
-			);
+			const isValid = await this.$refs.form.validate();
+			if (isValid && this.$connection.connectionStarted) {
+				await this.$connection.invoke(
+					"ConnectToGame",
+					this.roomCode,
+					this.nickname
+				);
+				this.setGameConfig({
+					code: this.roomCode,
+					nickname: this.nickname,
+					lastItemId: null,
+					masterId: null
+				});
+				this.$gameHub.$on("profile-received", (id) => {
+					this.setProfileId(id);
+				});
+				this.$router.push({
+					name: "Lobby",
+					params: {
+						roomCode: this.roomCode
+					}
+				});
+			}
 			this.loading = false;
 		},
 		async createRoom() {

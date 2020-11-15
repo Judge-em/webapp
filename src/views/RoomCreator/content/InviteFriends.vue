@@ -13,7 +13,7 @@
 		>
 			<el-button
 				type="danger"
-				icon="el-icon-circle-close"
+				icon="el-icon-back"
 				class="text-wrap my-2 font-weight-bold"
 				@click="previousStep"
 				>{{ $t("creator.Previous") }}</el-button
@@ -22,7 +22,7 @@
 				type="success"
 				class="text-wrap my-2 mx-0 font-weight-bold"
 				@click="nextStep"
-				>{{ $t("creator.Lobby") }} <i class=" el-icon-right"></i
+				>{{ $t("creator.Lobby") }} <i class="el-icon-right"></i
 			></el-button>
 		</div>
 	</div>

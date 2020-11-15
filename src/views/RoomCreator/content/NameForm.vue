@@ -74,8 +74,7 @@ export default {
 				const result = await this.$game.createGame({
 					name: this.roomConfig.name
 				});
-				console.log(result);
-				this.roomCofing.code = result.data.code;
+				this.roomConfig.code = result.data.code;
 				this.roomConfig.gameId = result.data.id;
 				this.$emit("dispatchNextStep");
 			}

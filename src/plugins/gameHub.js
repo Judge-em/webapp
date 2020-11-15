@@ -14,20 +14,16 @@ export default {
 		Vue.prototype.$gameHub = gameHub;
 
 		connection.on("RefreshCurrentItemId", (itemId) => {
-			console.log(itemId);
-			// gameHub.$emit("user-added-event", { userId, userName });
+			gameHub.$emit("current-item-received", itemId);
 		});
-		connection.on("RefreshItemList", (items, messsage) => {
-			console.log(items, messsage);
-			// gameHub.$emit("user-added-event", { userId, userName });
+		connection.on("RefreshItemList", (items) => {
+			gameHub.$emit("items-received", items);
 		});
 		connection.on("RefreshVotingProgress", (voteCounter, maxVotes) => {
-			console.log(voteCounter, maxVotes);
-			// gameHub.$emit("user-added-event", { userId, userName });
+			gameHub.$emit("voting-progress-received", voteCounter, maxVotes);
 		});
-		connection.on("SendMessage", (messsage) => {
-			console.log(messsage);
-			// gameHub.$emit("user-added-event", { userId, userName });
+		connection.on("SendMessage", (content, type) => {
+			gameHub.$emit("message-received", { content, type });
 		});
 		connection.on("DisbandGame", (messsage) => {
 			console.log(messsage);
@@ -37,9 +33,25 @@ export default {
 			console.log(summary);
 			// gameHub.$emit("user-added-event", { userId, userName });
 		});
+		connection.on("RefreshCategories", (category) => {
+			gameHub.$emit("categories-received", category);
+		});
 		connection.on("SendPlayerProfileId", (profileId) => {
-			console.log(profileId);
-			// gameHub.$emit("user-added-event", { userId, userName });
+			gameHub.$emit("profile-received", profileId);
+		});
+
+		connection.on("RefreshPlayersList", (playerList) => {
+			console.log(playerList);
+			gameHub.$emit("player-list-received", playerList);
+		});
+
+		connection.on("AllowGameControl", (masterId) => {
+			console.log(masterId);
+			gameHub.$emit("master-id-received", masterId);
+		});
+
+		connection.on("RequestCurrentItemId", (gameCode) => {
+			gameHub.$emit("master-requested", gameCode);
 		});
 
 		Vue.prototype.$connection = connection;
@@ -62,7 +74,6 @@ export default {
 		}
 
 		connection.onclose(() => start());
-
 		start();
 	}
 };

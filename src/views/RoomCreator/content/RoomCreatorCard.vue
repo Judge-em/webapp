@@ -38,18 +38,7 @@ export default {
 				code: "",
 				name: "",
 				categories: [],
-				items: [
-					{
-						name: "test",
-						description: "asdas",
-						image: "https://picsum.photos/600/100"
-					},
-					{
-						name: "test",
-						description: "asdas",
-						image: "https://picsum.photos/600/100"
-					}
-				]
+				items: []
 			},
 			dynamicComponents: [
 				{ name: "name-form" },

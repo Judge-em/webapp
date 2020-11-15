@@ -53,7 +53,6 @@
 										"
 										v-model="category.weight"
 										min="1"
-										clearable
 									>
 										<i
 											slot="prefix"
@@ -93,16 +92,16 @@
 		>
 			<el-button
 				type="danger"
-				icon="el-icon-circle-close"
+				icon="el-icon-back"
 				class="text-wrap my-2 font-weight-bold"
 				@click="previousStep"
-				>{{ $t("creator.CancelRoom") }}</el-button
+				>{{ $t("creator.Previous") }}</el-button
 			>
 			<el-button
 				type="success"
 				class="text-wrap my-2 mx-0 font-weight-bold"
 				@click="nextStep"
-				>{{ $t("creator.Next") }} <i class=" el-icon-right"></i
+				>{{ $t("creator.Next") }} <i class="el-icon-right"></i
 			></el-button>
 		</div>
 	</div>
@@ -141,7 +140,7 @@ export default {
 	methods: {
 		async fetchCategories() {
 			const result = await this.$category.getCategories(
-				this.roomConfig.id
+				this.roomConfig.gameId
 			);
 			if (result) {
 				this.roomConfig.categories = [...result.data];
@@ -170,8 +169,9 @@ export default {
 			this.$emit("dispatchPreviousStep");
 		},
 		async nextStep() {
+			let result = false;
 			if (this.newCategories.length > 0) {
-				await this.$category.createCategories(
+				result = await this.$category.createCategories(
 					this.newCategories.map((item) => {
 						item.weight = +item.weight;
 						return item;
@@ -179,17 +179,16 @@ export default {
 				);
 			}
 			if (this.updatedCategories.length > 0) {
-				await this.$category.updateCategories(
+				result = await this.$category.updateCategories(
 					this.updatedCategories.map((item) => {
 						item.weight = +item.weight;
 						return item;
 					})
 				);
 			}
-			// console.log(result);
-			// if (result) {
-			// 	this.$emit("dispatchNextStep");
-			// }
+			if (result) {
+				this.$emit("dispatchNextStep");
+			}
 		},
 		isCategoryEqual(oldCategory, newCategory) {
 			return (
