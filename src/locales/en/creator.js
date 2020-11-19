@@ -12,7 +12,14 @@ const creator = {
 	EnterItems: "Enter Items",
 	ItemDescription: "Description",
 	ItemImage: "Image Url",
-	NewCategory: "New category?"
+	NewCategory: "New category?",
+	Error: "Error",
+	CategoriesFail: "Make sure the categories are filled in correctly",
+	InviteFriends: "Invite your friends",
+	Lobby: "Lobby",
+	Copied: "Copied to clipboard",
+	SomethingGoesWrong: "Something goes wrong!",
+	CopyToClipboard: "Copy To Clipboard"
 };
 
 export default creator;

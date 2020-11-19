@@ -14,7 +14,7 @@
 							:key="category.id"
 							class="d-flex flex-wrap align-items-center justify-content-center my-2"
 						>
-							<div class="col-12 col-md-4 my-1 my-md-0">
+							<div class="col-12 col-md-6 col-lg-4 my-1 my-md-0">
 								<ValidationProvider
 									ref="categoryName"
 									name="CategoryName"
@@ -39,7 +39,7 @@
 									</small>
 								</ValidationProvider>
 							</div>
-							<div class="col-12 col-md-2 my-1 my-md-0">
+							<div class="col-12 col-md-4 col-lg-2 my-1 my-md-0">
 								<ValidationProvider
 									ref="categoryWeight"
 									name="CategoryWeight"
@@ -116,9 +116,7 @@ export default {
 	},
 	data() {
 		return {
-			oldCategories: [],
-			test1: null,
-			test2: null
+			oldCategories: []
 		};
 	},
 	mounted() {
@@ -148,6 +146,13 @@ export default {
 					...item
 				}));
 			}
+			if (this.roomConfig.categories.length === 0)
+				this.roomConfig.categories.push({
+					name: "",
+					weight: 1,
+					gameId: this.roomConfig.gameId,
+					new: true
+				});
 		},
 		async removeCategory(index) {
 			if (this.roomConfig.categories[index].id) {
@@ -169,25 +174,33 @@ export default {
 			this.$emit("dispatchPreviousStep");
 		},
 		async nextStep() {
-			let result = false;
-			if (this.newCategories.length > 0) {
-				result = await this.$category.createCategories(
-					this.newCategories.map((item) => {
-						item.weight = +item.weight;
-						return item;
-					})
-				);
-			}
-			if (this.updatedCategories.length > 0) {
-				result = await this.$category.updateCategories(
-					this.updatedCategories.map((item) => {
-						item.weight = +item.weight;
-						return item;
-					})
-				);
-			}
-			if (result) {
-				this.$emit("dispatchNextStep");
+			let result = { untouched: true };
+			const isValid = await this.$refs.form.validate();
+			if (isValid && this.roomConfig.categories.length > 0) {
+				if (this.newCategories.length > 0) {
+					result = await this.$category.createCategories(
+						this.newCategories.map((item) => {
+							item.weight = +item.weight;
+							return item;
+						})
+					);
+				}
+				if (this.updatedCategories.length > 0) {
+					result = await this.$category.updateCategories(
+						this.updatedCategories.map((item) => {
+							item.weight = +item.weight;
+							return item;
+						})
+					);
+				}
+				if (result || result.untouched) {
+					this.$emit("dispatchNextStep");
+				}
+			} else {
+				this.$notify.error({
+					title: this.$t("creator.Error"),
+					message: this.$t("creator.CategoriesFail")
+				});
 			}
 		},
 		isCategoryEqual(oldCategory, newCategory) {

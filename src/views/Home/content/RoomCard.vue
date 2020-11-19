@@ -60,6 +60,7 @@
 							</div>
 							<div class="col-12 flex-wrap d-flex flex-column">
 								<el-button
+									:disabled="loading"
 									type="primary"
 									icon="el-icon-switch-button"
 									@click="joinToRoom"
@@ -77,6 +78,7 @@
 				v-if="!isGuest"
 			>
 				<el-button
+					:disabled="loading"
 					type="success"
 					icon="el-icon-magic-stick"
 					@click="createRoom"
@@ -92,8 +94,9 @@ import { mapGetters, mapActions } from "vuex";
 export default {
 	data() {
 		return {
-			roomCode: "UMIWAR",
-			nickname: "test"
+			roomCode: "",
+			nickname: "",
+			loading: false
 		};
 	},
 	methods: {
@@ -101,18 +104,24 @@ export default {
 		async joinToRoom() {
 			this.loading = true;
 			const isValid = await this.$refs.form.validate();
+			if (!this.$connection.connectionStarted) {
+				this.$notify.info({
+					title: "Info",
+					message: this.$t("layout.Wait")
+				});
+			}
 			if (isValid && this.$connection.connectionStarted) {
 				await this.$connection.invoke(
 					"ConnectToGame",
 					this.roomCode,
 					this.nickname
 				);
-				this.setGameConfig({
-					code: this.roomCode,
-					nickname: this.nickname,
-					lastItemId: null,
-					masterId: null
-				});
+				// this.setGameConfig({
+				// 	code: this.roomCode,
+				// 	nickname: this.nickname,
+				// 	lastItemId: null,
+				// 	masterId: null
+				// });
 				this.$gameHub.$on("profile-received", (id) => {
 					this.setProfileId(id);
 				});
@@ -130,7 +139,13 @@ export default {
 		}
 	},
 	computed: {
-		...mapGetters(["isGuest"])
+		...mapGetters(["isGuest", "lastGameConfig"])
+	},
+	watch: {
+		lastGameConfig(newVal) {
+			this.roomCode = newVal.code;
+			this.nickname = newVal.nickname;
+		}
 	}
 };
 </script>

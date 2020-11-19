@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import cookieHelper from "../helpers/cookieHelper";
+import localStorageHelper from "../helpers/localStorageHelper";
 import parseJwt from "../helpers/parseJwt";
 
 Vue.use(Vuex);
@@ -9,11 +10,11 @@ export default new Vuex.Store({
 	state: {
 		user: null,
 		profileId: "",
+		master: false,
 		lastGameConfig: {
 			code: "",
 			nickname: "",
-			lastItemId: null,
-			masterId: null
+			lastItemId: null
 		},
 		categories: [],
 		items: [],
@@ -25,7 +26,7 @@ export default new Vuex.Store({
 		isGuest: (state) => state.user.role === "Guest",
 		profileId: (state) => state.profileId,
 		lastGameConfig: (state) => state.lastGameConfig,
-		isMaster: (state) => !!state.lastGameConfig.masterId,
+		isMaster: (state) => state.master,
 		categories: (state) => state.categories,
 		items: (state) => state.items,
 		usersInLobby: (state) => state.lobby,
@@ -41,8 +42,8 @@ export default new Vuex.Store({
 		setGameConfig(state, config) {
 			state.lastGameConfig = config;
 		},
-		setGameMaster(state, id) {
-			state.lastGameConfig.masterId = id;
+		setGameMaster(state, isMaster) {
+			state.master = isMaster;
 		},
 		setCategorie(state, categories) {
 			state.categories = categories;
@@ -59,6 +60,19 @@ export default new Vuex.Store({
 		},
 		setUsersInLobby(state, users) {
 			state.lobby = users;
+		},
+		clearConfig(state) {
+			state.profileId = "";
+			state.master = false;
+			state.lastGameConfig = {
+				code: "",
+				nickname: "",
+				lastItemId: null
+			};
+			state.categories = [];
+			state.items = [];
+			state.lobby = [];
+			state.votingProgress = { max: null, progress: null };
 		}
 	},
 	actions: {
@@ -70,11 +84,18 @@ export default new Vuex.Store({
 			if (getters.user == null) {
 				if (cookieHelper.hasSessionCookie()) {
 					dispatch("setSession", cookieHelper.getSessionCookie());
+					if (localStorageHelper.isStored("lastGame")) {
+						dispatch(
+							"setGameConfig",
+							localStorageHelper.getFromStorage("lastGame")
+						);
+					}
 				}
 			}
 		},
 		destroySession({ commit }) {
 			commit("storeUser", null);
+			commit("clearConfig");
 			cookieHelper.deleteSessionCookie();
 		},
 		setProfileId({ commit }, profileId) {
@@ -83,8 +104,8 @@ export default new Vuex.Store({
 		setGameConfig({ commit }, config) {
 			commit("setGameConfig", config);
 		},
-		setGameMaster({ commit }, id) {
-			commit("setGameMaster", id);
+		setGameMaster({ commit }, isMaster) {
+			commit("setGameMaster", isMaster);
 		},
 		setCategories({ commit }, categories) {
 			commit("setCategorie", categories);

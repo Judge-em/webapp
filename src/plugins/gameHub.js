@@ -41,7 +41,6 @@ export default {
 		});
 
 		connection.on("RefreshPlayersList", (playerList) => {
-			console.log(playerList);
 			gameHub.$emit("player-list-received", playerList);
 		});
 
@@ -58,8 +57,7 @@ export default {
 		// if connection closed, reopen it
 		let startedPromise = null;
 		function start() {
-			startedPromise = connection.start().catch((err) => {
-				console.log(err);
+			startedPromise = connection.start().catch(() => {
 				return new Promise((resolve, reject) =>
 					setTimeout(
 						() =>

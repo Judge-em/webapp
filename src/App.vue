@@ -34,23 +34,17 @@ export default {
 			"setGameMaster",
 			"setVotingProgress",
 			"setLastItemId",
-			"setUsersInLobby"
+			"setUsersInLobby",
+			"setProfileId"
 		])
 	},
 	computed: {
 		...mapGetters(["user", "lastGameConfig", "isMaster", "items"]),
 		showNavbar() {
-			// return true;
 			return !this.routesWithoutMenu.includes(this.$route.name);
 		}
 	},
 	created() {
-		if (localStorageHelper.isStored("lastGame")) {
-			this.setGameConfig(localStorageHelper.getFromStorage("lastGame"));
-			this.$router.push({
-				name: "Home"
-			});
-		}
 		this.$gameHub.$on("message-received", (message) => {
 			if (messageTypes[message.type] === "error")
 				this.$router.push({ name: "Home" });
@@ -58,21 +52,18 @@ export default {
 				title: message.content
 			});
 		});
-		this.$gameHub.$on("master-id-received", (id) => {
-			this.setGameMaster(id);
+		this.$gameHub.$on("master-id-received", () => {
+			this.setGameMaster(true);
 		});
 		this.$gameHub.$on("categories-received", (categories) => {
 			this.setCategories(categories);
 		});
-
 		this.$gameHub.$on("items-received", (items) => {
 			this.setItems(items);
 		});
-
 		this.$gameHub.$on("player-list-received", (list) => {
 			this.setUsersInLobby(list);
 		});
-
 		this.$gameHub.$on("master-requested", (gameCode) => {
 			if (this.lastGameConfig.lastItemId)
 				this.$connection.invoke(
@@ -81,7 +72,9 @@ export default {
 					this.lastGameConfig.lastItemId
 				);
 		});
-
+		this.$gameHub.$on("profile-received", (id) => {
+			this.setProfileId(id);
+		});
 		this.$gameHub.$on(
 			"voting-progress-received",
 			(votingCounter, maxVotes) => {

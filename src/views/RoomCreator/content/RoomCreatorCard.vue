@@ -25,6 +25,7 @@
 	</el-card>
 </template>
 <script>
+import { mapActions } from "vuex";
 import NameForm from "./NameForm";
 import CategoriesList from "./CategoriesList";
 import InviteFriends from "./InviteFriends";
@@ -67,13 +68,35 @@ export default {
 		InviteFriends
 	},
 	methods: {
-		nextStep() {
+		...mapActions(["setGameConfig"]),
+		async nextStep() {
 			if (this.active++ >= this.stepsLimit) {
 				this.active = 0;
-				this.$router.push({
-					name: "Lobby",
-					params: { roomCode: this.room.code }
-				});
+
+				if (!this.$connection.connectionStarted) {
+					this.$notify.info({
+						title: "Info",
+						message: this.$t("layout.Wait")
+					});
+				}
+				if (this.$connection.connectionStarted) {
+					await this.$connection.invoke(
+						"ConnectToGame",
+						this.room.code,
+						this.room.name
+					);
+					this.setGameConfig({
+						code: this.room.code,
+						nickname: this.room.name,
+						lastItemId: null
+					});
+					this.$router.push({
+						name: "Lobby",
+						params: {
+							roomCode: this.room.code
+						}
+					});
+				}
 			}
 		},
 		previousStep() {
