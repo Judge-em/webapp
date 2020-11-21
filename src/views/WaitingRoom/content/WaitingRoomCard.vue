@@ -30,22 +30,15 @@
 				<el-dialog
 					:title="$t('lobby.ItemsList')"
 					:visible.sync="itemsListDialog"
+					:fullscreen="isSmallScreen"
 					:before-close="handleClose"
 				>
-					<span slot="footer" class="dialog-footer">
-						<el-button @click="itemsListDialog = false"
-							>Cancel</el-button
-						>
-						<el-button
-							type="primary"
-							@click="itemsListDialog = false"
-							>Confirm</el-button
-						>
-					</span>
+					<items-list></items-list>
 				</el-dialog>
 				<el-dialog
 					:title="$t('lobby.AddItem')"
 					:visible.sync="addItemDialog"
+					:fullscreen="isSmallScreen"
 					:before-close="handleClose"
 				>
 					<add-item :gameCode="code"></add-item>
@@ -84,13 +77,17 @@
 	</div>
 </template>
 <script>
+import ItemsList from "./ItemsList.vue";
 import AddItem from "./AddItem.vue";
 import { mapGetters, mapActions } from "vuex";
+import mediaQuery from "../../../mixins/mediaQuery";
 
 export default {
 	components: {
-		AddItem
+		AddItem,
+		ItemsList
 	},
+	mixins: [mediaQuery],
 	data() {
 		return {
 			code: "",

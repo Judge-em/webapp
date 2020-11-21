@@ -7,7 +7,10 @@ const en = {
 		Nickname: "Nickname",
 		RoomName: "Room Name",
 		CategoryName: "Category Name",
-		CategoryWeight: "Category Weight"
+		CategoryWeight: "Category Weight",
+		ItemName: "Item Name",
+		ItemImage: "Item Image",
+		ItemDescription: "Item Description"
 	},
 	validation: english.messages
 };

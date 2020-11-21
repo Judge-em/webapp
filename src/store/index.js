@@ -10,7 +10,7 @@ export default new Vuex.Store({
 	state: {
 		user: null,
 		profileId: "",
-		master: false,
+		master: null,
 		lastGameConfig: {
 			code: "",
 			nickname: "",
@@ -26,7 +26,7 @@ export default new Vuex.Store({
 		isGuest: (state) => state.user.role === "Guest",
 		profileId: (state) => state.profileId,
 		lastGameConfig: (state) => state.lastGameConfig,
-		isMaster: (state) => state.master,
+		isMaster: (state) => state.master === +state.user.nameid,
 		categories: (state) => state.categories,
 		items: (state) => state.items,
 		usersInLobby: (state) => state.lobby,
@@ -42,8 +42,8 @@ export default new Vuex.Store({
 		setGameConfig(state, config) {
 			state.lastGameConfig = config;
 		},
-		setGameMaster(state, isMaster) {
-			state.master = isMaster;
+		setGameMaster(state, id) {
+			state.master = id;
 		},
 		setCategorie(state, categories) {
 			state.categories = categories;
@@ -104,8 +104,8 @@ export default new Vuex.Store({
 		setGameConfig({ commit }, config) {
 			commit("setGameConfig", config);
 		},
-		setGameMaster({ commit }, isMaster) {
-			commit("setGameMaster", isMaster);
+		setGameMaster({ commit }, id) {
+			commit("setGameMaster", id);
 		},
 		setCategories({ commit }, categories) {
 			commit("setCategorie", categories);

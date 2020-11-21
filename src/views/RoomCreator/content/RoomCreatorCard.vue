@@ -69,7 +69,7 @@ export default {
 	},
 	methods: {
 		...mapActions(["setGameConfig"]),
-		async nextStep() {
+		async nextStep(nickname) {
 			if (this.active++ >= this.stepsLimit) {
 				this.active = 0;
 
@@ -83,11 +83,11 @@ export default {
 					await this.$connection.invoke(
 						"ConnectToGame",
 						this.room.code,
-						this.room.name
+						nickname
 					);
 					this.setGameConfig({
 						code: this.room.code,
-						nickname: this.room.name,
+						nickname,
 						lastItemId: null
 					});
 					this.$router.push({

@@ -29,7 +29,7 @@
 					>
 						<el-input
 							:placeholder="$t('creator.RoomName')"
-							v-model="roomConfig.name"
+							v-model="nickname"
 							clearable
 							:class="[{ 'is-invalid': errors[0] }]"
 						>
@@ -73,7 +73,9 @@ export default {
 		}
 	},
 	data() {
-		return {};
+		return {
+			nickname: ""
+		};
 	},
 	methods: {
 		previousStep() {
@@ -81,7 +83,7 @@ export default {
 		},
 		async nextStep() {
 			const isValid = await this.$refs.form.validate();
-			if (isValid) this.$emit("dispatchNextStep");
+			if (isValid) this.$emit("dispatchNextStep", this.nickname);
 		},
 		copy() {
 			const codeToCopy = document.querySelector("#game-code");

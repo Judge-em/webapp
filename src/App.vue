@@ -52,8 +52,8 @@ export default {
 				title: message.content
 			});
 		});
-		this.$gameHub.$on("master-id-received", () => {
-			this.setGameMaster(true);
+		this.$gameHub.$on("master-id-received", (id) => {
+			this.setGameMaster(id);
 		});
 		this.$gameHub.$on("categories-received", (categories) => {
 			this.setCategories(categories);

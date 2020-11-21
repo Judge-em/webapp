@@ -116,12 +116,11 @@ export default {
 					this.roomCode,
 					this.nickname
 				);
-				// this.setGameConfig({
-				// 	code: this.roomCode,
-				// 	nickname: this.nickname,
-				// 	lastItemId: null,
-				// 	masterId: null
-				// });
+				this.setGameConfig({
+					code: this.roomCode,
+					nickname: this.nickname,
+					lastItemId: null
+				});
 				this.$gameHub.$on("profile-received", (id) => {
 					this.setProfileId(id);
 				});
@@ -140,6 +139,10 @@ export default {
 	},
 	computed: {
 		...mapGetters(["isGuest", "lastGameConfig"])
+	},
+	mounted() {
+		this.roomCode = this.lastGameConfig.code;
+		this.nickname = this.lastGameConfig.nickname;
 	},
 	watch: {
 		lastGameConfig(newVal) {

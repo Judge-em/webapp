@@ -4,13 +4,15 @@
 			<h3>{{ item.name }}</h3>
 		</div>
 		<div
-			class="col-12 d-flex justify-content-center align-items-center flex-wrap"
+			class="col-12 d-flex justify-content-center align-items-center flex-column px-0"
 		>
 			<div class="d-flex flex-column">
 				<el-image
 					v-if="item.imageLink"
 					:src="item.imageLink"
 					fit="contain"
+					><div slot="error" class="image-slot">
+						<i class="el-icon-picture-outline"></i></div
 				></el-image>
 				<span class="pt-3">
 					{{ item.description }}
@@ -26,7 +28,7 @@
 				}}</el-divider>
 				<el-rate
 					v-if="rating.categoryRatings[index]"
-					class="d-flex justify-content-between"
+					class="d-flex justify-content-between flex-wrap h-100"
 					v-model="rating.categoryRatings[index].score"
 					:colors="colors"
 					:max="10"
@@ -34,7 +36,9 @@
 				</el-rate>
 			</div>
 
-			<div class="col-12 d-flex justify-content-end align-items-center">
+			<div
+				class="col-12 d-flex justify-content-end align-items-center flex-column flex-md-row px-0"
+			>
 				<span v-if="votingProgress.max">{{
 					`${$t("room.Voted")}:${votingProgress.progress}/${
 						votingProgress.max
@@ -44,7 +48,7 @@
 					type="success"
 					@click="vote()"
 					icon="el-icon-s-promotion"
-					class="text-wrap my-2 ml-2"
+					class="text-wrap my-2 ml-2 col-12 col-md-2"
 					>Vote</el-button
 				>
 			</div>
@@ -52,7 +56,9 @@
 	</el-card>
 </template>
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
+import mediaQuery from "../../../mixins/mediaQuery";
+
 export default {
 	data() {
 		return {
@@ -75,13 +81,25 @@ export default {
 			return { categoryId: item.id, score: 0 };
 		});
 	},
+	mixins: [mediaQuery],
 	methods: {
+		...mapActions(["setVotingProgress"]),
 		vote() {
-			this.$connection.invoke(
-				"AddRating",
-				this.lastGameConfig.code,
-				this.rating
-			);
+			let valid = true;
+			for (const rating of this.rating.categoryRatings) {
+				if (rating.score === 0) valid = false;
+			}
+			if (valid) {
+				this.$connection.invoke(
+					"AddRating",
+					this.lastGameConfig.code,
+					this.rating
+				);
+			} else {
+				this.$notify.info({
+					title: this.$t("room.MinRate")
+				});
+			}
 		}
 	},
 	computed: {
@@ -96,6 +114,7 @@ export default {
 	watch: {
 		currentId(newVal) {
 			this.item = this.items.find((item) => item.id === newVal);
+			this.setVotingProgress({ maxVotes: null, votingCounter: null });
 		},
 		lastGameConfig: {
 			deep: true,

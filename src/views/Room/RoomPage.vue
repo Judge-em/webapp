@@ -3,7 +3,7 @@
 		<div
 			class="container vh-100 d-flex align-items-center justify-content-center"
 		>
-			<div class="col-12">
+			<div class="col-12 px-0">
 				<rating-card></rating-card>
 			</div>
 		</div>

@@ -19,7 +19,8 @@ const creator = {
 	Lobby: "Lobby",
 	Copied: "Copied to clipboard",
 	SomethingGoesWrong: "Something goes wrong!",
-	CopyToClipboard: "Copy To Clipboard"
+	CopyToClipboard: "Copy To Clipboard",
+	EmptyList: "Nothing to display"
 };
 
 export default creator;

@@ -84,16 +84,12 @@
 				class="col-12 d-flex justify-content-end flex-column flex-sm-row flex-wrap"
 			>
 				<el-button
-					type="danger"
-					class="text-wrap mt-2 mx-2 font-weight-bold"
-					@click="nextStep"
-					>{{ $t("creator.Delete") }} <i class="el-icon-right"></i
-				></el-button>
-				<el-button
+					:disabled="loading"
 					type="success"
 					class="text-wrap mt-2 mx-0 font-weight-bold"
 					@click="addNewItem()"
-					>{{ $t("creator.Next") }} <i class="el-icon-right"></i
+					>{{ $t("lobby.AddItem") }}
+					<i class="el-icon-circle-plus-outline"></i
 				></el-button>
 			</div>
 		</div>
@@ -106,6 +102,7 @@ export default {
 	},
 	data() {
 		return {
+			loading: false,
 			item: {
 				name: "",
 				description: "",
@@ -114,25 +111,28 @@ export default {
 		};
 	},
 	methods: {
-		removeItem(index) {
-			this.roomConfig.items.splice(index, 1);
-		},
 		async addNewItem() {
+			this.loading = true;
 			const isValid = await this.$refs.form.validate();
 			if (isValid) {
-				const result = await this.$connection.invoke(
+				await this.$connection.invoke(
 					"AddItem",
 					this.item,
 					this.gameCode
 				);
-				console.log(result);
+
+				this.$notify.success({
+					title: "Success",
+					message: this.$t("lobby.ItemAdded")
+				});
+				this.item = {
+					name: "",
+					description: "",
+					imageLink: ""
+				};
+				this.$refs.form.reset();
 			}
-		},
-		previousStep() {
-			this.$emit("dispatchPreviousStep");
-		},
-		nextStep() {
-			this.$emit("dispatchNextStep");
+			this.loading = false;
 		}
 	}
 };
