@@ -1,167 +1,106 @@
 <template>
 	<el-card class="box-card">
-		<div slot="header" class="text-center">
-			<h3>{{ $t("creator.RoomCreate") }}</h3>
+		<div slot="header" class="text-center my-4">
+			<h3 class="room-creator-header">
+				{{ $t("creator.RoomCreator").toUpperCase() }}
+			</h3>
 		</div>
 		<div
-			class="col-12 d-flex justify-content-center align-items-center flex-wrap"
+			class="col-12 d-flex justify-content-center align-items-center flex-wrap px-0 px-sm-3"
 		>
-			<div class="col-12">
+			<div class="col-12 pt-2 pb-4">
 				<el-steps :active="active" finish-status="success">
-					<el-step title="Step 1"></el-step>
-					<el-step title="Step 2"></el-step>
-					<el-step title="Step 3"></el-step>
+					<el-step></el-step>
+					<el-step></el-step>
+					<el-step></el-step>
 				</el-steps>
-
-				<el-button style="margin-top: 12px;" @click="next"
-					>Next step</el-button
-				>
 			</div>
-			<div
-				v-if="active === 0"
-				class="col-6 d-flex flex-column justify-content-center align-items-center mb-5"
-			>
-				<h5 class="pb-2">{{ $t("creator.RoomCodeInput") }}</h5>
-				<div class="col-12 col-lg-6 d-flex flex-column">
-					<el-input
-						:placeholder="$t('creator.RoomName')"
-						v-model="input"
-						clearable
-					>
-						<i slot="prefix" class="el-input__icon el-icon-key"></i>
-					</el-input>
-				</div>
-			</div>
-			<div
-				v-if="active === 1"
-				class="col-12 d-flex flex-column justify-content-center align-items-center mb-5"
-			>
-				<h5 class="pb-2">{{ $t("creator.EnterCategories") }}</h5>
-				<div class="col-12 d-flex flex-column">
-					<div
-						class="d-flex flex-wrap align-items-center justify-content-center"
-					>
-						<div class="col-12 col-sm-4">
-							<el-input
-								:placeholder="$t('creator.CategoryName')"
-								v-model="input2"
-								clearable
-								class="mr-1"
-							>
-								<i
-									slot="prefix"
-									class="el-input__icon el-icon-key"
-								></i>
-							</el-input>
-						</div>
-						<div class="col-12 col-sm-2">
-							<el-input
-								:placeholder="$t('creator.CategoryWeight')"
-								v-model="input3"
-								clearable
-							>
-								<i
-									slot="prefix"
-									class="el-input__icon el-icon-key"
-								></i>
-							</el-input>
-						</div>
-						<div class="col-12 col-sm-2">
-							<el-button
-								type="success"
-								icon="el-icon-plus"
-							></el-button>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div
-				v-if="active === 2"
-				class="col-12 d-flex flex-column justify-content-center align-items-center mb-5"
-			>
-				<h5 class="pb-2">{{ $t("creator.EnterCategories") }}</h5>
-				<div class="col-12 d-flex flex-column">
-					<div
-						class="d-flex flex-wrap align-items-center justify-content-center"
-					>
-						<div class="col-12 col-sm-4">
-							<el-input
-								:placeholder="$t('creator.CategoryName')"
-								v-model="input4"
-								clearable
-								class="mr-1"
-							>
-								<i
-									slot="prefix"
-									class="el-input__icon el-icon-key"
-								></i>
-							</el-input>
-						</div>
-						<div class="col-12 col-sm-4">
-							<el-input
-								:placeholder="$t('creator.CategoryWeight')"
-								v-model="input5"
-								clearable
-							>
-								<i
-									slot="prefix"
-									class="el-input__icon el-icon-key"
-								></i>
-							</el-input>
-						</div>
-						<div class="col-12 col-sm-3">
-							<el-input
-								:placeholder="$t('creator.CategoryWeight')"
-								v-model="input6"
-								clearable
-							>
-								<i
-									slot="prefix"
-									class="el-input__icon el-icon-key"
-								></i>
-							</el-input>
-						</div>
-						<div class="col-12 col-sm-1">
-							<el-button
-								type="success"
-								icon="el-icon-plus"
-							></el-button>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="col-12 d-flex justify-content-between flex-wrap">
-				<el-button
-					type="danger"
-					icon="el-icon-back"
-					class="text-wrap my-2"
-					>Cancel room</el-button
-				>
-				<el-button
-					type="success"
-					icon="el-icon-right"
-					class="text-wrap my-2 "
-					>Create Room</el-button
-				>
-			</div>
+			<component
+				:is="currentComponent"
+				:roomConfig="room"
+				@dispatchPreviousStep="previousStep"
+				@dispatchNextStep="nextStep"
+			></component>
 		</div>
 	</el-card>
 </template>
 <script>
+import { mapActions } from "vuex";
+import NameForm from "./NameForm";
+import CategoriesList from "./CategoriesList";
+import InviteFriends from "./InviteFriends";
+
 export default {
 	data() {
 		return {
-			active: 2,
-			input: "",
-			input2: "",
-			input3: "",
-			input4: "",
-			input5: ""
+			active: 0,
+			room: {
+				gameId: null,
+				code: "",
+				name: "",
+				categories: [],
+				items: []
+			},
+			dynamicComponents: [
+				{ name: "name-form" },
+				{ name: "categories-list" },
+				{ name: "invite-friends" }
+			]
 		};
 	},
+	computed: {
+		currentComponent() {
+			return this.dynamicComponents[this.active].name;
+		},
+		isFirstStep() {
+			return this.active === 0;
+		},
+		isLastStep() {
+			return this.active === this.stepsLimit;
+		},
+		stepsLimit() {
+			return this.dynamicComponents.length - 1;
+		}
+	},
+	components: {
+		NameForm,
+		CategoriesList,
+		InviteFriends
+	},
 	methods: {
-		next() {
-			if (this.active++ > 2) this.active = 0;
+		...mapActions(["setGameConfig"]),
+		async nextStep(nickname) {
+			if (this.active++ >= this.stepsLimit) {
+				this.active = 0;
+
+				if (!this.$connection.connectionStarted) {
+					this.$notify.info({
+						title: "Info",
+						message: this.$t("layout.Wait")
+					});
+				}
+				if (this.$connection.connectionStarted) {
+					await this.$connection.invoke(
+						"ConnectToGame",
+						this.room.code,
+						nickname
+					);
+					this.setGameConfig({
+						code: this.room.code,
+						nickname,
+						lastItemId: null
+					});
+					this.$router.push({
+						name: "Lobby",
+						params: {
+							roomCode: this.room.code
+						}
+					});
+				}
+			}
+		},
+		previousStep() {
+			if (this.active-- <= 0) this.$router.push({ name: "Home" });
 		}
 	}
 };

@@ -1,19 +1,19 @@
 <template>
-	<div class="room">
+	<div class="report-page">
 		<div
 			class="container vh-100 d-flex align-items-center justify-content-center"
 		>
-			<div class="col-12 px-0">
-				<rating-card></rating-card>
+			<div class="col-12">
+				<summaries-card></summaries-card>
 			</div>
 		</div>
 	</div>
 </template>
 <script>
-import RatingCard from "./content/RatingCard.vue";
+import SummariesCard from "./content/SummariesCard.vue";
 export default {
 	components: {
-		RatingCard
+		SummariesCard
 	}
 };
 </script>

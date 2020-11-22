@@ -1,17 +1,20 @@
 {
-	"name": "webapp",
-	"version": "0.1.0",
+	"name": "judge-em",
+	"version": "1.0.0",
 	"private": true,
+	"homepage": "https://judge-em.github.io",
 	"scripts": {
 		"serve": "vue-cli-service serve",
 		"build": "vue-cli-service build",
 		"lint": "vue-cli-service lint",
+		"deploy": "vue-cli-service gh-pages",
 		"pretty": "prettier --write \"./**/*.{ts,js,jsx,json,vue}\""
 	},
 	"dependencies": {
 		"@microsoft/signalr": "^3.1.9",
 		"axios": "^0.20.0",
 		"bootstrap": "^4.5.3",
+		"chart.js": "^2.9.4",
 		"core-js": "^3.6.5",
 		"element-ui": "^2.13.2",
 		"vee-validate": "^3.4.2",

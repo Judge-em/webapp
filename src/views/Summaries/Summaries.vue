@@ -3,17 +3,17 @@
 		<div
 			class="container vh-100 d-flex align-items-center justify-content-center"
 		>
-			<div class="col-12 px-0">
-				<rating-card></rating-card>
+			<div class="col-12">
+				<summaries-list></summaries-list>
 			</div>
 		</div>
 	</div>
 </template>
 <script>
-import RatingCard from "./content/RatingCard.vue";
+import SummariesList from "./content/SummariesList.vue";
 export default {
 	components: {
-		RatingCard
+		SummariesList
 	}
 };
 </script>
