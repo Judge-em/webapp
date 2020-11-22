@@ -1,11 +1,13 @@
 {
-	"name": "webapp",
-	"version": "0.1.0",
+	"name": "judge-em",
+	"version": "1.0.0",
 	"private": true,
+	"homepage": "https://judge-em.github.io",
 	"scripts": {
 		"serve": "vue-cli-service serve",
 		"build": "vue-cli-service build",
 		"lint": "vue-cli-service lint",
+		"deploy": "vue-cli-service gh-pages",
 		"pretty": "prettier --write \"./**/*.{ts,js,jsx,json,vue}\""
 	},
 	"dependencies": {

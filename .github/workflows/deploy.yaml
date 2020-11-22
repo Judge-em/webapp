@@ -1,0 +1,43 @@
+name: Judge'em - Deploy
+
+on:
+    push:
+        branches:
+            - main
+        tags:
+            - "v*.*.*"
+
+jobs:
+    deploy:
+        runs-on: ubuntu-latest
+        name: deploy
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v2
+
+            - name: Setup node
+              uses: actions/setup-node@master
+
+            - name: Npm install
+              run: npm install
+            - name: Npm build for dev api
+              env:
+                  VUE_APP_API_URL: https://judge-em-api.herokuapp.com/api
+                  VUE_APP_FB_APP_ID: ${{ secrets.FB_APP_ID }}
+              run: npm run build
+
+            - name: Prepare tag
+              id: prepare_tag
+              if: startsWith(github.ref, 'refs/tags/')
+              run: |
+                  TAG_NAME="${GITHUB_REF##refs/tags/}"
+                  echo "::set-output name=tag_name::${TAG_NAME}"
+                  echo "::set-output name=deploy_tag_name::deploy-${TAG_NAME}"
+
+            - name: Deploy
+              uses: peaceiris/actions-gh-pages@v3
+              with:
+                  github_token: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+                  publish_dir: ./public
+                  tag_name: ${{ steps.prepare_tag.outputs.deploy_tag_name }}
+                  tag_message: 'Deployment ${{ steps.prepare_tag.outputs.tag_name }}'
