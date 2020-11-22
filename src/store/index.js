@@ -121,6 +121,10 @@ export default new Vuex.Store({
 		},
 		setUsersInLobby({ commit }, users) {
 			commit("setUsersInLobby", users);
+		},
+		endGame({ commit }) {
+			commit("clearConfig");
+			localStorageHelper.removeFromStorage("lastGame");
 		}
 	}
 });

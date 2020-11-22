@@ -30,8 +30,7 @@ export default {
 			// gameHub.$emit("user-added-event", { userId, userName });
 		});
 		connection.on("ShowSummary", (summary) => {
-			console.log(summary);
-			// gameHub.$emit("user-added-event", { userId, userName });
+			gameHub.$emit("summary-received", summary);
 		});
 		connection.on("RefreshCategories", (category) => {
 			gameHub.$emit("categories-received", category);
@@ -45,7 +44,6 @@ export default {
 		});
 
 		connection.on("AllowGameControl", (masterId) => {
-			console.log(masterId);
 			gameHub.$emit("master-id-received", masterId);
 		});
 

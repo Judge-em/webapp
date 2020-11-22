@@ -21,7 +21,9 @@
 				></span>
 			</div>
 
-			<div class="col-12 d-flex justify-content-between">
+			<div
+				class="col-12 d-flex justify-content-between flex-column flex-md-row"
+			>
 				<el-button
 					type="danger"
 					icon="el-icon-back"
@@ -33,7 +35,7 @@
 					type="success"
 					icon="el-icon-right"
 					@click="showSummary"
-					class="text-wrap my-2 font-weight-bold"
+					class="text-wrap my-2 font-weight-bold mx-0"
 					>{{ $t("lobby.ShowSummary") }}</el-button
 				>
 			</div>
@@ -41,36 +43,46 @@
 	</el-card>
 </template>
 <script>
+import { mapActions } from "vuex";
 export default {
 	data() {
 		return {
-			ranking: []
+			ranking: [],
+			parsedData: {}
 		};
 	},
 	async created() {
-		const { data } = await this.$summary.getSummary(12);
-		if (data) {
-			const parsedData = JSON.parse(data.result);
-			parsedData.Items.forEach((item) => {
+		// const { summary } = this.$route.params;
+		const { summary } = this.$route.params;
+		if (summary) {
+			this.parsedData = JSON.parse(summary.result);
+			this.parsedData.Items.forEach((item) => {
 				let totalScore = 0;
 				item.Ratings.forEach((rating) => {
 					totalScore += rating.TotalScore;
 				});
 				this.ranking.push({
 					rating: totalScore / item.Ratings.length,
-					name: item.name
+					name: item.Name
 				});
 			});
 
-			this.ranking.sort((a, b) => a.rating - b.rating);
+			this.ranking.sort((a, b) => b.rating - a.rating);
+			this.endGame();
+		} else {
+			this.$router.push({ name: "Home" });
 		}
 	},
 	methods: {
+		...mapActions(["endGame"]),
 		leaveRoom() {
 			this.$router.push({ name: "Home" });
 		},
 		showSummary() {
-			this.$router.push({ name: "Summary" });
+			this.$router.push({
+				name: "Summary",
+				params: { gameId: this.parsedData.gameId }
+			});
 		}
 	}
 };

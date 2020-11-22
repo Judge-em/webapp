@@ -4,6 +4,7 @@ import layout from "./layout";
 import lobby from "./lobby";
 import login from "./login";
 import room from "./room";
+import summary from "./summary";
 
 const en = {
 	login,
@@ -11,7 +12,8 @@ const en = {
 	creator,
 	layout,
 	lobby,
-	room
+	room,
+	summary
 };
 
 export default en;

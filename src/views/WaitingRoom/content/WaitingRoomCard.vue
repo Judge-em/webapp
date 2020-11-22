@@ -96,14 +96,12 @@ export default {
 		};
 	},
 	mounted() {
-		this.code = "UMIWAR";
-		this.code = this.$route.params.roomCode;
+		const { roomCode } = this.$route.params;
+		if (roomCode) this.code = roomCode;
+		else this.$router.push({ name: "Home" });
 	},
 	methods: {
 		...mapActions(["setGameConfig"]),
-		addItem() {
-			console.log("goToAdding");
-		},
 		leaveRoom() {
 			this.$connection.invoke("DisconnectFromGame", this.code);
 			this.$router.push({ name: "Home" });

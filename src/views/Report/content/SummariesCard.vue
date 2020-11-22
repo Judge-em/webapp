@@ -6,7 +6,7 @@
 		<div
 			class="col-12 d-flex justify-content-center align-items-center flex-wrap"
 		>
-			<canvas id="testChart"></canvas>
+			<canvas id="summaryChart"></canvas>
 		</div>
 	</el-card>
 </template>
@@ -44,41 +44,45 @@ export default {
 		};
 	},
 	async mounted() {
-		// const { gameId } = this.$route.params;
-		const { data } = await this.$summary.getSummary(12);
-		this.summary = JSON.parse(data.result);
-		const profiles = [];
-		this.summary.Items.forEach((item, index) => {
-			for (const subItem of item.Ratings) {
-				const test = profiles.findIndex(
-					(profile) => profile.id === subItem.PlayerProfile.Id
-				);
-				if (test === -1) {
-					const randomColor = this.getRandomColor();
-					const profileIndex = profiles.push({
-						id: subItem.PlayerProfile.Id,
-						label: subItem.PlayerProfile.Nickname,
-						data: [],
-						showLine: false,
-						pointBackgroundColor: randomColor,
-						backgroundColor: randomColor,
-						pointStyle: "rectRot",
-						pointRadius: "10",
-						pointHoverRadius: "12"
-					});
-					console.log(profileIndex);
-					profiles[profileIndex - 1].data[index] = subItem.TotalScore;
-				} else {
-					profiles[test].data[index] = subItem.TotalScore;
+		const { gameId } = this.$route.params;
+		if (gameId) {
+			const { data } = await this.$summary.getSummary(gameId);
+			this.summary = JSON.parse(data.result);
+			const profiles = [];
+			this.summary.Items.forEach((item, index) => {
+				for (const subItem of item.Ratings) {
+					const profile = profiles.findIndex(
+						(profile) => profile.id === subItem.PlayerProfile.Id
+					);
+					if (profile === -1) {
+						const randomColor = this.getRandomColor();
+						const profileIndex = profiles.push({
+							id: subItem.PlayerProfile.Id,
+							label: subItem.PlayerProfile.Nickname,
+							data: [],
+							showLine: false,
+							pointBackgroundColor: randomColor,
+							backgroundColor: randomColor,
+							pointStyle: "rectRot",
+							pointRadius: "10",
+							pointHoverRadius: "12"
+						});
+						profiles[profileIndex - 1].data[index] =
+							subItem.TotalScore;
+					} else {
+						profiles[profile].data[index] = subItem.TotalScore;
+					}
 				}
-			}
-		});
-		console.log(profiles);
-		this.config.data.datasets = profiles;
-		this.config.data.labels = this.summary.Items.map((item) => item.Name);
-		const ctx = document.getElementById("testChart").getContext("2d");
-		const chart = new Chart(ctx, this.config);
-		console.log(chart);
+			});
+			this.config.data.datasets = profiles;
+			this.config.data.labels = this.summary.Items.map(
+				(item) => item.Name
+			);
+			const ctx = document
+				.getElementById("summaryChart")
+				.getContext("2d");
+			new Chart(ctx, this.config);
+		} else this.$router.push({ name: "Home" });
 	},
 	methods: {
 		getRandomColor() {

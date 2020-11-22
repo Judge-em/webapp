@@ -45,11 +45,18 @@
 					} `
 				}}</span>
 				<el-button
+					type="warning"
+					@click="forceNextStep()"
+					icon="el-icon-video-play"
+					class="text-wrap my-2 ml-2 col-12 col-md-2"
+					>{{ $t("room.ForceNextStep") }}</el-button
+				>
+				<el-button
 					type="success"
 					@click="vote()"
 					icon="el-icon-s-promotion"
 					class="text-wrap my-2 ml-2 col-12 col-md-2"
-					>Vote</el-button
+					>{{ $t("room.Vote") }}</el-button
 				>
 			</div>
 		</div>
@@ -108,7 +115,8 @@ export default {
 			"categories",
 			"profileId",
 			"lastGameConfig",
-			"votingProgress"
+			"votingProgress",
+			"isMaster"
 		])
 	},
 	watch: {
@@ -119,7 +127,6 @@ export default {
 		lastGameConfig: {
 			deep: true,
 			handler(newVal) {
-				console.log("changed");
 				this.currentId = newVal.lastItemId;
 				this.rating.itemId = this.currentId;
 				this.rating.categoryRatings.forEach(

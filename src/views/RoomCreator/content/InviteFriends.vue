@@ -28,7 +28,7 @@
 						v-slot="{ errors }"
 					>
 						<el-input
-							:placeholder="$t('creator.RoomName')"
+							:placeholder="$t('home.Nickname')"
 							v-model="nickname"
 							clearable
 							:class="[{ 'is-invalid': errors[0] }]"

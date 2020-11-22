@@ -75,6 +75,9 @@ export default {
 		this.$gameHub.$on("profile-received", (id) => {
 			this.setProfileId(id);
 		});
+		this.$gameHub.$on("summary-received", (summary) => {
+			this.$router.push({ name: "Ranking", params: { summary } });
+		});
 		this.$gameHub.$on(
 			"voting-progress-received",
 			(votingCounter, maxVotes) => {
