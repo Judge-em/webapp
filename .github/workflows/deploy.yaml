@@ -30,19 +30,26 @@ jobs:
 
             - name: Npm install
               run: npm install
-            - name: Npm build for dev api
+            - name: Npm build
               env:
                   VUE_APP_API_URL: https://judge-em-api.herokuapp.com/api
                   VUE_APP_FB_APP_ID: ${{ secrets.FB_APP_ID }}
               run: npm run build
 
-            - name: Prepare tag
-              id: prepare_tag
-              if: startsWith(github.ref, 'refs/tags/')
-              run: |
-                  TAG_NAME="${GITHUB_REF##refs/tags/}"
-                  echo "::set-output name=tag_name::${TAG_NAME}"
-                  echo "::set-output name=deploy_tag_name::deploy-${TAG_NAME}"
+            - name: Bump version and push tag
+              id: tag_version
+              uses: mathieudutour/github-tag-action@v5
+              with:
+                github_token: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+            
+            - name: Create a GitHub release
+              uses: actions/create-release@v1
+              env:
+                  GITHUB_TOKEN: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+              with:
+                  tag_name: ${{ steps.tag_version.outputs.new_tag }}
+                  release_name: Release ${{ steps.tag_version.outputs.new_tag }}
+                  body: ${{ steps.tag_version.outputs.changelog }}
 
             - name: Deploy
               uses: peaceiris/actions-gh-pages@v3
