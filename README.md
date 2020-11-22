@@ -1,6 +1,6 @@
 # webapp
 
-![Production build](https://github.com/PeopleKeys/app2.pk.new/workflows/Judge'em%20-%20Deploy/badge.svg)
+![Production build](https://github.com/Judge-em/webapp/workflows/Judge'em%20-%20Deploy/badge.svg)
 
 ## Project setup
 
