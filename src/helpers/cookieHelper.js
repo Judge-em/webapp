@@ -8,11 +8,7 @@ const defaultParams = {
 
 export default {
 	deleteSessionCookie() {
-		const date = new Date();
-		cookie.set(SESSION_COOKIE_NAME, "", {
-			expires: date.getDate() - 10
-		});
-		cookie.remove(SESSION_COOKIE_NAME);
+		cookie.remove(SESSION_COOKIE_NAME, "/webapp", "judge-em.github.io");
 	},
 	hasSessionCookie() {
 		return !!cookie.get(SESSION_COOKIE_NAME);
