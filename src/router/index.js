@@ -81,7 +81,7 @@ router.beforeEach((to, from, next) => {
 	store.dispatch("restoreSession");
 	const { user } = store.getters;
 	if (to.matched.some((route) => route.meta.requiresAuth)) {
-		!user ? next({ path: "/login" }) : next();
+		!user ? next({ name: "Login" }) : next();
 	}
 	if (to.matched.some((route) => !route.meta.requiresAuth)) {
 		user ? next({ name: "Home" }) : next();
