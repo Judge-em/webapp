@@ -52,7 +52,6 @@ export default {
 		};
 	},
 	async created() {
-		// const { summary } = this.$route.params;
 		const { summary } = this.$route.params;
 		if (summary) {
 			this.parsedData = JSON.parse(summary.result);
