@@ -1,5 +1,5 @@
 export default {
-	FACEBOOK: "Facebook",
-	GMAIL: "Gmail",
-	GUEST: "Guest"
+	FACEBOOK: "facebook",
+	GMAIL: "gmail",
+	GUEST: "guest"
 };

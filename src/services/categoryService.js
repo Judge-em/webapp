@@ -13,6 +13,14 @@ export default function(Vue) {
 
 			return result;
 		},
+		async removeCategory(categoryId) {
+			const result = await requestSender.send({
+				method: "delete",
+				url: `/categories/${categoryId}`
+			});
+
+			return result;
+		},
 		async updateCategories(updatedCategories) {
 			const result = await requestSender.send(
 				{
@@ -22,6 +30,13 @@ export default function(Vue) {
 				updatedCategories
 			);
 
+			return result;
+		},
+		async getCategories(gameId) {
+			const result = await requestSender.send({
+				method: "get",
+				url: `/categories/${gameId}`
+			});
 			return result;
 		}
 	};

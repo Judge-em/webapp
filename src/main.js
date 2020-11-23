@@ -1,3 +1,4 @@
+import gameHub from "@/plugins/gameHub";
 import globalComponents from "@/plugins/globalComponents";
 import globalStyles from "@/plugins/globalStyles";
 import "@/plugins/veeValidate";
@@ -13,6 +14,7 @@ import authService from "./services/authorizationService";
 import categoryService from "./services/categoryService";
 import gameService from "./services/gameService";
 import itemService from "./services/itemService";
+import summaryService from "./services/summaryService";
 import store from "./store";
 
 Vue.config.productionTip = false;
@@ -23,7 +25,9 @@ Vue.use(globalComponents);
 Vue.use(authService);
 Vue.use(itemService);
 Vue.use(gameService);
+Vue.use(summaryService);
 Vue.use(categoryService);
+Vue.use(gameHub);
 
 Vue.axios.defaults.baseURL = process.env.VUE_APP_API_BASE_URL;
 

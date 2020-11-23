@@ -3,7 +3,7 @@ import cookie from "vue-cookies";
 const SESSION_COOKIE_NAME = "common_token";
 
 const defaultParams = {
-	expires: "8h"
+	expires: "2h"
 };
 
 export default {

@@ -1,0 +1,10 @@
+.room-creator-header {
+	color: $primary-color;
+	font-weight: 600;
+}
+.clipboard-code {
+	cursor: pointer;
+	&:hover {
+		color: $second-color;
+	}
+}
