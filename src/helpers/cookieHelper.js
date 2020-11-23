@@ -18,7 +18,13 @@ export default {
 		return !!cookie.get(SESSION_COOKIE_NAME);
 	},
 	setSessionCookie(token) {
-		cookie.set(SESSION_COOKIE_NAME, token, defaultParams);
+		cookie.set(
+			SESSION_COOKIE_NAME,
+			token,
+			defaultParams.expires,
+			"/webapp",
+			"judge-em.github.io"
+		);
 	},
 	getSessionCookie() {
 		return cookie.get(SESSION_COOKIE_NAME);
