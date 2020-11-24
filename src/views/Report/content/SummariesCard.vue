@@ -34,7 +34,7 @@ export default {
 						yAxes: [
 							{
 								ticks: {
-									max: 10,
+									max: 5,
 									min: 0,
 									beginAtZero: true
 								}
