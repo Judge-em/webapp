@@ -79,6 +79,7 @@ export default {
 					});
 				}
 			});
+			this.loading = false;
 		},
 		// async initGoogle() {
 		// 	window.gapi.load("auth2", function() {

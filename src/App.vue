@@ -25,6 +25,7 @@ export default {
 			routesWithoutMenu: ["Login"]
 		};
 	},
+
 	mixins: [mediaQuery],
 	methods: {
 		...mapActions([
@@ -45,6 +46,8 @@ export default {
 		}
 	},
 	created() {
+		this.$connection.start();
+
 		this.$gameHub.$on("message-received", (message) => {
 			if (messageTypes[message.type] === "error")
 				this.$router.push({ name: "Home" });

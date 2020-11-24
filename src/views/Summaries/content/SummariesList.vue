@@ -10,6 +10,8 @@
 		>
 			<el-table-column prop="gameName" :label="$t('summary.Summary')">
 			</el-table-column>
+			<el-table-column prop="finishedAt" :label="$t('summary.Date')">
+			</el-table-column>
 			<el-table-column align="right">
 				<template slot-scope="scope">
 					<div class="col-12 col-md-2">

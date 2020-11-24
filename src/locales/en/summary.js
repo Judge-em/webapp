@@ -1,6 +1,7 @@
 const summary = {
 	Summaries: "Summaries",
-	Summary: "Summary"
+	Summary: "Summary",
+	Date: "Date"
 };
 
 export default summary;

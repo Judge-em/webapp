@@ -21,19 +21,22 @@
 			<div
 				v-for="(category, index) in categories"
 				:key="category.id"
-				class="col-12 d-flex flex-column mb-3"
+				class="col-12 d-flex flex-column mb-3 px-0 justify-content-center align-items-center"
 			>
 				<el-divider content-position="left">{{
 					category.name
 				}}</el-divider>
-				<el-rate
-					v-if="rating.categoryRatings[index]"
-					class="d-flex justify-content-between flex-wrap h-100"
-					v-model="rating.categoryRatings[index].score"
-					:colors="colors"
-					:max="10"
-				>
-				</el-rate>
+				<div class="col-12 col-md-6 px-0">
+					<el-rate
+						v-if="rating.categoryRatings[index]"
+						allow-half
+						class="d-flex justify-content-between flex-wrap h-100"
+						v-model="rating.categoryRatings[index].score"
+						:colors="colors"
+						:max="5"
+					>
+					</el-rate>
+				</div>
 			</div>
 
 			<div
@@ -45,6 +48,7 @@
 					} `
 				}}</span>
 				<el-button
+					v-if="isMaster"
 					type="warning"
 					@click="forceNextStep()"
 					icon="el-icon-video-play"
@@ -143,6 +147,6 @@ export default {
 </script>
 <style>
 .el-rate__icon {
-	font-size: 30px;
+	font-size: 40px;
 }
 </style>
