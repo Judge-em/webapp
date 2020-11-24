@@ -4,7 +4,8 @@ const home = {
 	Join: "Join",
 	Nickname: "Nickname",
 	Or: "or",
-	CreateRoom: "Create Room"
+	CreateRoom: "Create Room",
+	GoHome: "Back to Home"
 };
 
 export default home;

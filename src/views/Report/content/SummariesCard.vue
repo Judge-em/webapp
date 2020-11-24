@@ -11,7 +11,7 @@
 		<el-button
 			type="danger"
 			icon="el-icon-s-home"
-			@click="createRoom"
+			@click="$router.push({ name: 'Home' })"
 			class="text-wrap mb-4 mt-2 font-weight-bold"
 			>{{ $t("home.GoHome") }}</el-button
 		>

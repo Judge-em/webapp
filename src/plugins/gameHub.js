@@ -53,6 +53,7 @@ export default {
 
 		Vue.prototype.$connection = connection;
 		let startedPromise = null;
+
 		function start() {
 			startedPromise = connection.start().catch(() => {
 				return new Promise((resolve, reject) =>
