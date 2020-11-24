@@ -52,7 +52,6 @@ export default {
 		});
 
 		Vue.prototype.$connection = connection;
-		// if connection closed, reopen it
 		let startedPromise = null;
 		function start() {
 			startedPromise = connection.start().catch(() => {
@@ -68,8 +67,8 @@ export default {
 			});
 			return startedPromise;
 		}
-
 		connection.onclose(() => start());
+
 		start();
 	}
 };

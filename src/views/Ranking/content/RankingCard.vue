@@ -16,7 +16,7 @@
 				<span class="col-6">{{ item.name }}</span>
 				<span
 					class="col-6 d-flex justify-content-end align-items-center"
-					>{{ item.rating }}
+					>{{ item.rating.toFixed(2) }}
 					<i v-if="index === 0" class="pl-2 el-icon-trophy"></i
 				></span>
 			</div>
@@ -80,7 +80,7 @@ export default {
 		showSummary() {
 			this.$router.push({
 				name: "Summary",
-				params: { gameId: this.parsedData.gameId }
+				params: { gameId: this.parsedData.Id }
 			});
 		}
 	}
