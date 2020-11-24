@@ -86,7 +86,7 @@ export default {
 						nickname
 					);
 					this.setGameConfig({
-						code: this.room.code,
+						code: this.room.code.toUpperCase(),
 						nickname,
 						lastItemId: null
 					});
