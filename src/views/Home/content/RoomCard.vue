@@ -113,11 +113,11 @@ export default {
 			if (isValid && this.$connection.connectionStarted) {
 				await this.$connection.invoke(
 					"ConnectToGame",
-					this.roomCode,
+					this.roomCode.toUpperCase(),
 					this.nickname
 				);
 				this.setGameConfig({
-					code: this.roomCode,
+					code: this.roomCode.toUpperCase(),
 					nickname: this.nickname,
 					lastItemId: null
 				});
