@@ -8,6 +8,13 @@
 		>
 			<canvas id="summaryChart"></canvas>
 		</div>
+		<el-button
+			type="danger"
+			icon="el-icon-s-home"
+			@click="createRoom"
+			class="text-wrap mb-4 mt-2 font-weight-bold"
+			>{{ $t("home.GoHome") }}</el-button
+		>
 	</el-card>
 </template>
 <script>
