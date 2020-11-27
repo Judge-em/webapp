@@ -46,6 +46,7 @@ export default {
 		}
 	},
 	created() {
+		this.$connection.onclose(() => this.connect());
 		this.$gameHub.$on("message-received", (message) => {
 			this.$notify[messageTypes[message.type]]({
 				title: message.content
@@ -121,6 +122,8 @@ export default {
 					message: this.$t("layout.LoggedOut")
 				});
 				this.$router.push({ name: "Login" });
+			} else {
+				this.connect();
 			}
 		},
 		lastGameConfig(newVal) {

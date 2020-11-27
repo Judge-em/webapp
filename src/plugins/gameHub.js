@@ -27,7 +27,6 @@ export default {
 		});
 		connection.on("DisbandGame", (messsage) => {
 			console.log(messsage);
-			// gameHub.$emit("user-added-event", { userId, userName });
 		});
 		connection.on("ShowSummary", (summary) => {
 			gameHub.$emit("summary-received", summary);
@@ -54,12 +53,13 @@ export default {
 		Vue.prototype.$connection = connection;
 		let startedPromise = null;
 
-		function start() {
+		Vue.prototype.connect = () => {
 			startedPromise = connection.start().catch(() => {
 				return new Promise((resolve, reject) =>
 					setTimeout(
 						() =>
-							start()
+							Vue.prototype
+								.connect()
 								.then(resolve)
 								.catch(reject),
 						5000
@@ -67,9 +67,6 @@ export default {
 				);
 			});
 			return startedPromise;
-		}
-		connection.onclose(() => start());
-
-		start();
+		};
 	}
 };
