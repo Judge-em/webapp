@@ -30,6 +30,7 @@
 						<el-input
 							:placeholder="$t('home.Nickname')"
 							v-model="nickname"
+							maxlength="25"
 							clearable
 							:class="[{ 'is-invalid': errors[0] }]"
 						>

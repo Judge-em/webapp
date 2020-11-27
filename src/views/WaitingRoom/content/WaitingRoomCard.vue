@@ -97,7 +97,7 @@ export default {
 	},
 	mounted() {
 		const { roomCode } = this.$route.params;
-		if (roomCode) this.code = roomCode;
+		if (roomCode) this.code = roomCode.toUpperCase();
 		else this.$router.push({ name: "Home" });
 	},
 	methods: {
