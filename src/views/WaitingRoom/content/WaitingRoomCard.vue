@@ -97,7 +97,7 @@ export default {
 	},
 	mounted() {
 		const { roomCode } = this.$route.params;
-		if (roomCode) this.code = roomCode;
+		if (roomCode) this.code = roomCode.toUpperCase();
 		else this.$router.push({ name: "Home" });
 	},
 	methods: {
@@ -107,7 +107,18 @@ export default {
 			this.$router.push({ name: "Home" });
 		},
 		startGame() {
-			this.$connection.invoke("StartGame", this.code, this.items[0].id);
+			if (this.items.length > 0)
+				this.$connection.invoke(
+					"StartGame",
+					this.code,
+					this.items[0].id
+				);
+			else {
+				this.$notify.info({
+					title: "Info",
+					message: this.$t("layout.NoItems")
+				});
+			}
 		},
 		handleClose() {
 			this.itemsListDialog = false;

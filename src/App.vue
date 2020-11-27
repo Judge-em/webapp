@@ -46,9 +46,8 @@ export default {
 		}
 	},
 	created() {
+		this.$connection.onclose(() => this.connect());
 		this.$gameHub.$on("message-received", (message) => {
-			if (messageTypes[message.type] === "error")
-				this.$router.push({ name: "Home" });
 			this.$notify[messageTypes[message.type]]({
 				title: message.content
 			});
@@ -75,6 +74,12 @@ export default {
 		});
 		this.$gameHub.$on("profile-received", (id) => {
 			this.setProfileId(id);
+			this.$router.push({
+				name: "Lobby",
+				params: {
+					roomCode: this.lastGameConfig.code
+				}
+			});
 		});
 		this.$gameHub.$on("summary-received", (summary) => {
 			this.$router.push({ name: "Ranking", params: { summary } });
@@ -117,6 +122,8 @@ export default {
 					message: this.$t("layout.LoggedOut")
 				});
 				this.$router.push({ name: "Login" });
+			} else {
+				this.connect();
 			}
 		},
 		lastGameConfig(newVal) {

@@ -90,6 +90,7 @@ export default new Vuex.Store({
 							localStorageHelper.getFromStorage("lastGame")
 						);
 					}
+					Vue.prototype.connect();
 				}
 			}
 		},

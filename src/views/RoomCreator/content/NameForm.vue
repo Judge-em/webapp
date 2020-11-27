@@ -54,6 +54,7 @@
 	</div>
 </template>
 <script>
+import { mapActions } from "vuex";
 export default {
 	props: {
 		roomConfig: {
@@ -65,6 +66,7 @@ export default {
 		return {};
 	},
 	methods: {
+		...mapActions(["setGameConfig"]),
 		previousStep() {
 			this.$emit("dispatchPreviousStep");
 		},
@@ -76,6 +78,11 @@ export default {
 				});
 				this.roomConfig.code = result.data.code;
 				this.roomConfig.gameId = result.data.id;
+				this.setGameConfig({
+					code: result.data.code.toUpperCase(),
+					nickname: "",
+					lastItemId: null
+				});
 				this.$emit("dispatchNextStep");
 			}
 		}

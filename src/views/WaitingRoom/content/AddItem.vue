@@ -19,6 +19,7 @@
 							<el-input
 								:placeholder="$t('creator.ItemName')"
 								v-model="item.name"
+								maxlength="30"
 								clearable
 								:class="[{ 'is-invalid': errors[0] }]"
 							>
@@ -36,7 +37,6 @@
 						<ValidationProvider
 							ref="itemImage"
 							name="ItemImage"
-							rules="required"
 							v-slot="{ errors }"
 						>
 							<el-input
@@ -59,7 +59,6 @@
 						<ValidationProvider
 							ref="itemDescription"
 							name="ItemDescription"
-							rules="required"
 							v-slot="{ errors }"
 						>
 							<el-input

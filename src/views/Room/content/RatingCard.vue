@@ -50,7 +50,7 @@
 				<el-button
 					v-if="isMaster"
 					type="warning"
-					@click="forceNextStep()"
+					@click="vote()"
 					icon="el-icon-video-play"
 					class="text-wrap my-2 ml-2 col-12 col-md-2"
 					>{{ $t("room.ForceNextStep") }}</el-button
@@ -59,7 +59,7 @@
 					type="success"
 					@click="vote()"
 					:disabled="loading"
-					icon="el-icon-s-promotion"
+					:icon="loading ? 'el-icon-loading' : 'el-icon-s-promotion'"
 					class="text-wrap my-2 ml-2 col-12 col-md-2"
 					>{{ $t("room.Vote") }}</el-button
 				>
@@ -88,6 +88,7 @@ export default {
 	},
 	mounted() {
 		this.currentId = this.lastGameConfig.lastItemId;
+		if (this.currentId === null) this.$router.push({ name: "Home" });
 		this.rating.itemId = this.currentId;
 		this.rating.playerProfileId = this.profileId;
 		this.rating.categoryRatings = this.categories.map((item) => {
@@ -98,23 +99,27 @@ export default {
 	methods: {
 		...mapActions(["setVotingProgress"]),
 		vote() {
-			let valid = true;
-			this.loading = true;
-			for (const rating of this.rating.categoryRatings) {
-				if (rating.score === 0) valid = false;
+			if (!this.loading) {
+				this.loading = true;
+				let valid = true;
+				for (const rating of this.rating.categoryRatings) {
+					if (rating.score === 0) valid = false;
+				}
+				if (valid) {
+					this.$connection.invoke(
+						"AddRating",
+						this.lastGameConfig.code,
+						this.rating
+					);
+				} else {
+					this.$notify.info({
+						title: this.$t("room.MinRate")
+					});
+				}
+				setTimeout(() => {
+					this.loading = false;
+				}, 2000);
 			}
-			if (valid) {
-				this.$connection.invoke(
-					"AddRating",
-					this.lastGameConfig.code,
-					this.rating
-				);
-			} else {
-				this.$notify.info({
-					title: this.$t("room.MinRate")
-				});
-			}
-			this.loading = false;
 		}
 	},
 	computed: {

@@ -90,12 +90,6 @@ export default {
 						nickname,
 						lastItemId: null
 					});
-					this.$router.push({
-						name: "Lobby",
-						params: {
-							roomCode: this.room.code
-						}
-					});
 				}
 			}
 		},

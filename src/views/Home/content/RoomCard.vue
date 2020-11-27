@@ -18,12 +18,13 @@
 								<ValidationProvider
 									ref="roomCode"
 									name="RoomCode"
-									rules="required|max:6|min:6"
+									rules="required|min:6"
 									v-slot="{ errors }"
 								>
 									<el-input
 										:placeholder="$t('home.RoomCode')"
 										v-model="roomCode"
+										maxlength="6"
 										:class="[{ 'is-invalid': errors[0] }]"
 									>
 										<i
@@ -46,6 +47,7 @@
 									<el-input
 										:placeholder="$t('home.Nickname')"
 										v-model="nickname"
+										maxlength="25"
 										:class="[{ 'is-invalid': errors[0] }]"
 									>
 										<i
@@ -120,15 +122,6 @@ export default {
 					code: this.roomCode.toUpperCase(),
 					nickname: this.nickname,
 					lastItemId: null
-				});
-				this.$gameHub.$on("profile-received", (id) => {
-					this.setProfileId(id);
-				});
-				this.$router.push({
-					name: "Lobby",
-					params: {
-						roomCode: this.roomCode
-					}
 				});
 			}
 			this.loading = false;

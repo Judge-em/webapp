@@ -27,6 +27,7 @@
 										"
 										v-model="category.name"
 										clearable
+										maxlength="25"
 										:class="[{ 'is-invalid': errors[0] }]"
 									>
 										<i
