@@ -58,6 +58,7 @@
 				<el-button
 					type="success"
 					@click="vote()"
+					:disabled="loading"
 					icon="el-icon-s-promotion"
 					class="text-wrap my-2 ml-2 col-12 col-md-2"
 					>{{ $t("room.Vote") }}</el-button
@@ -81,7 +82,8 @@ export default {
 				playerProfileId: "",
 				itemId: "",
 				categoryRatings: [{ categoryId: 0, score: 0 }]
-			}
+			},
+			loading: false
 		};
 	},
 	mounted() {
@@ -97,6 +99,7 @@ export default {
 		...mapActions(["setVotingProgress"]),
 		vote() {
 			let valid = true;
+			this.loading = true;
 			for (const rating of this.rating.categoryRatings) {
 				if (rating.score === 0) valid = false;
 			}
@@ -111,6 +114,7 @@ export default {
 					title: this.$t("room.MinRate")
 				});
 			}
+			this.loading = false;
 		}
 	},
 	computed: {

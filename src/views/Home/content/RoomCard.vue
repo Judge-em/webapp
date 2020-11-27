@@ -41,7 +41,7 @@
 								<ValidationProvider
 									ref="nickname"
 									name="Nickname"
-									rules="required"
+									rules="required|max:25"
 									v-slot="{ errors }"
 								>
 									<el-input
