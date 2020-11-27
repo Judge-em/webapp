@@ -1,6 +1,8 @@
 import cookie from "vue-cookies";
 
 const SESSION_COOKIE_NAME = "common_token";
+const APP_DOMAIN =
+	process.env.VUE_APP_NODE_ENV === "prod" ? "judge-em.github.io" : "";
 
 const defaultParams = {
 	expires: "2h"
@@ -8,7 +10,7 @@ const defaultParams = {
 
 export default {
 	deleteSessionCookie() {
-		cookie.remove(SESSION_COOKIE_NAME, "/webapp", "judge-em.github.io");
+		cookie.remove(SESSION_COOKIE_NAME, "/webapp", APP_DOMAIN);
 	},
 	hasSessionCookie() {
 		return !!cookie.get(SESSION_COOKIE_NAME);
@@ -19,7 +21,7 @@ export default {
 			token,
 			defaultParams.expires,
 			"/webapp",
-			"judge-em.github.io"
+			APP_DOMAIN
 		);
 	},
 	getSessionCookie() {

@@ -17,7 +17,7 @@ jobs:
 
             - name: Setup Node
               uses: actions/setup-node@master
-              
+
             - name: Cache dependencies
               uses: actions/cache@v2
               with:
@@ -34,6 +34,7 @@ jobs:
               env:
                   VUE_APP_API_BASE_URL: https://judge-em-api.herokuapp.com/api
                   VUE_APP_FB_APP_ID: ${{ secrets.FB_APP_ID }}
+                  VUE_APP_NODE_ENV: prod
               run: npm run build
 
             - name: Deploy
