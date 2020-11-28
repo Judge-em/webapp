@@ -20,7 +20,7 @@ export default {
 			SESSION_COOKIE_NAME,
 			token,
 			defaultParams.expires,
-			"/webapp",
+			// "/webapp",
 			APP_DOMAIN
 		);
 	},
