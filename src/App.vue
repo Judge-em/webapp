@@ -59,6 +59,11 @@ export default {
 			this.setCategories(categories);
 		});
 		this.$gameHub.$on("items-received", (items) => {
+			if (this.items.length > 0) {
+				this.$notify.success({
+					title: this.$t("lobby.NewItem")
+				});
+			}
 			this.setItems(items);
 		});
 		this.$gameHub.$on("player-list-received", (list) => {
