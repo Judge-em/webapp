@@ -17,7 +17,7 @@
 					@click="authWithFacebook()"
 					>{{ $t("login.LoginViaFacebook") }}</el-button
 				>
-				<el-button
+				<!-- <el-button
 					type="danger"
 					:icon="loading ? 'el-icon-loading' : 'fa fa-google fa-fw'"
 					:disabled="loading"
@@ -25,7 +25,7 @@
 					@click="authWithGmail()"
 					>{{ $t("login.LoginViaGmail") }}</el-button
 				>
-				<div class="g-signin2" data-onsuccess="onSignIn"></div>
+				<div class="g-signin2" data-onsuccess="onSignIn"></div> -->
 			</div>
 			<h5 class="my-2 grey">{{ $t("login.Or") }}</h5>
 			<div class="col-12 col-lg-8 d-flex flex-column mb-2">
