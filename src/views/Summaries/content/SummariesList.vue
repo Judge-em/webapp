@@ -27,6 +27,7 @@
 </template>
 <script>
 import { mapGetters } from "vuex";
+import moment from "moment";
 export default {
 	data() {
 		return {
@@ -35,11 +36,23 @@ export default {
 	},
 	async mounted() {
 		const { data } = await this.$summary.getSummaries(this.user.nameid);
-		this.summaries = data;
+		return this.sortArray(
+			(this.summaries = data.map((item) => {
+				item.finishedAt = moment(item.finishedAt).format(
+					"MM/DD/YYYY, h:mm:ss a"
+				);
+				return item;
+			}))
+		);
 	},
 	methods: {
 		openRanking(id) {
 			this.$router.push({ name: "Summary", params: { gameId: id } });
+		},
+		sortArray(array) {
+			array.sort(
+				(a, b) => new Date(b.finishedAt) - new Date(a.finishedAt)
+			);
 		}
 	},
 	computed: {
