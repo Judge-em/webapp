@@ -8,9 +8,10 @@
 		"build": "vue-cli-service build",
 		"lint": "vue-cli-service lint",
 		"deploy": "vue-cli-service gh-pages",
-				"lint:fix": "vue-cli-service lint --fix",
+		"lint:fix": "vue-cli-service lint --fix",
 		"pre-commit": "npm run lint:fix && pretty-quick --staged",
-		"pretty": "prettier --write \"./**/*.{ts,js,jsx,json,vue}\""},
+		"pretty": "prettier --write \"./**/*.{ts,js,jsx,json,vue}\""
+	},
 	"dependencies": {
 		"@microsoft/signalr": "^3.1.9",
 		"axios": "^0.20.0",
@@ -35,8 +36,8 @@
 		"@vue/cli-service": "~4.5.0",
 		"@vue/eslint-config-prettier": "^6.0.0",
 		"babel-eslint": "^10.1.0",
-				"husky": "^6.0.0",
-				"@commitlint/cli": "^12.1.1",
+		"husky": "^6.0.0",
+		"@commitlint/cli": "^12.1.1",
 		"@commitlint/config-conventional": "^12.1.1",
 		"eslint": "^6.7.2",
 		"eslint-plugin-prettier": "^3.1.3",
